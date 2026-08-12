@@ -1,6 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+// navigator.share is a browser capability, not React state — subscribing
+// via useSyncExternalStore (no-op subscribe, since it never changes after
+// mount) reads it safely without a hydration mismatch, and without the
+// effect+setState render-cascade that a plain useEffect check would cause.
+function subscribe() {
+  return () => {};
+}
+
+function canShareSnapshot(eligible: boolean) {
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || "");
+  return eligible && isMobile && typeof navigator.share === "function";
+}
 
 // Native share is mobile-only, and only once a route has real reports —
 // there's no system share sheet worth surfacing on desktop, and nothing
@@ -18,12 +31,11 @@ export default function ShareLink({
   shareLabel: string;
   eligible: boolean;
 }) {
-  const [canShare, setCanShare] = useState(false);
-
-  useEffect(() => {
-    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || "");
-    setCanShare(eligible && isMobile && typeof navigator.share === "function");
-  }, [eligible]);
+  const canShare = useSyncExternalStore(
+    subscribe,
+    () => canShareSnapshot(eligible),
+    () => false,
+  );
 
   if (!canShare) return null;
 

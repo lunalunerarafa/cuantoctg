@@ -249,6 +249,20 @@ const CENTRO_CENTRO_DESCRIPTION_ZERO: Record<Locale, string> = {
   fr: "Personne n'a encore signalé le prix d'un court trajet dans le Centre, Carthagène. Soyez le premier à signaler votre tarif.",
 };
 
+const METHOD_DESCRIPTION: Record<Locale, string> = {
+  es: "Cómo calculamos los rangos de tarifa, de dónde vienen los datos y qué pasa cuando hay pocos o ningún reporte.",
+  en: "How we calculate fare ranges, where the data comes from, and what happens when there are few or no reports.",
+  fr: "Comment nous calculons les fourchettes de tarifs, d'où viennent les données et ce qui se passe quand il y a peu ou pas de signalements.",
+};
+
+export function methodologyTitle(locale: Locale): string {
+  return `${COPY[locale].methodTitle} | cuánto cuesta cartagena`;
+}
+
+export function methodologyDescription(locale: Locale): string {
+  return METHOD_DESCRIPTION[locale];
+}
+
 export function routeDescription(origin: PlaceId, destination: PlaceId, display: DisplayRange, locale: Locale): string {
   const isCentroCentro = origin === "centro" && destination === "centro";
   if (display.kind === "zero") {
