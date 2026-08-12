@@ -1,4 +1,5 @@
 export type Locale = "es" | "en" | "fr";
+export const LOCALES: Locale[] = ["es", "en", "fr"];
 
 export type PlaceId =
   | "airport"
