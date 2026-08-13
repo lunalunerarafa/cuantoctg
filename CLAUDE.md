@@ -24,7 +24,7 @@ Rules for working on this repo. These persist across sessions — follow them by
 - Server-side range validation.
 - Rate limiting on a salted IP hash, roughly ten per hour. Store the hash, never the raw address.
 - A honeypot field.
-- A timing check rejecting submissions under two seconds from page load.
+- A timing check rejecting submissions under two seconds from when the report form opens (not page load, so a rider submitting a second/return-trip fare in the same session isn't penalized).
 - An origin check.
 - No CAPTCHA.
 - Store every raw submission; display only the computed range.
