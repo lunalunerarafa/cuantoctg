@@ -13,7 +13,11 @@ let client: SupabaseClient | null | undefined;
 
 function getClient(): SupabaseClient | null {
   if (client !== undefined) return client;
-  const url = process.env.SUPABASE_URL;
+  // The URL isn't sensitive (same reasoning as the anon key), so it's fine
+  // under the NEXT_PUBLIC_ name Supabase's own setup instructions suggest.
+  // The service-role key must never carry that prefix — it would be inlined
+  // into the client bundle.
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   client =
     url && key
