@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import ShareLink from "@/components/ShareLink";
 import LangSwitch from "@/components/LangSwitch";
+import ReportForm from "@/components/ReportForm";
 import { confidenceCaption, COPY, routeDescription, routeTitle, WORDMARK } from "@/lib/copy";
 import { formatRange } from "@/lib/range";
-import { getRouteDisplay, isValidRoute, placeLabel, VALID_ROUTES } from "@/lib/routes";
+import { computeDisplayRange, getSeedStat, isValidRoute, placeLabel, VALID_ROUTES } from "@/lib/routes";
+import { getUserReports } from "@/lib/supabase";
 import { LOCALES } from "@/lib/types";
 import type { Locale, PlaceId } from "@/lib/types";
 
@@ -31,7 +32,8 @@ export async function generateMetadata({
   if (!parsed) return {};
   const { locale, originId, destinationId } = parsed;
 
-  const display = getRouteDisplay(originId, destinationId);
+  const userReports = await getUserReports(originId, destinationId);
+  const display = computeDisplayRange(getSeedStat(originId, destinationId), userReports);
   const title = routeTitle(originId, destinationId, locale);
   const description = routeDescription(originId, destinationId, display, locale);
   const path = `/${originId}/${destinationId}`;
@@ -58,7 +60,8 @@ export default async function RoutePage({
   const { locale, originId, destinationId } = parsed;
 
   const t = COPY[locale];
-  const display = getRouteDisplay(originId, destinationId);
+  const userReports = await getUserReports(originId, destinationId);
+  const display = computeDisplayRange(getSeedStat(originId, destinationId), userReports);
   const originLabel = placeLabel(originId, locale);
   const destinationLabel = placeLabel(destinationId, locale);
   const rangeLabel = display.kind === "value" ? formatRange(display.min, display.max) : "—";
@@ -91,13 +94,7 @@ export default async function RoutePage({
         </div>
 
         <div className="mt-4 flex flex-col items-center gap-2">
-          <ShareLink
-            originLabel={originLabel}
-            destinationLabel={destinationLabel}
-            rangeLabel={rangeLabel}
-            shareLabel={t.share}
-            eligible={display.kind === "value"}
-          />
+          <ReportForm locale={locale} originId={originId} destinationId={destinationId} initialDisplay={display} />
         </div>
       </div>
 

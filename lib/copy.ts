@@ -44,6 +44,7 @@ type Dict = {
   youPaid: string;
   mostPay: string;
   reportAnother: string;
+  submitError: string;
 };
 
 export const WORDMARK = "cuánto cuesta cartagena";
@@ -95,6 +96,7 @@ export const COPY: Record<Locale, Dict> = {
     youPaid: "Pagaste",
     mostPay: "La mayoría paga",
     reportAnother: "Reportar otra carrera",
+    submitError: "No pudimos enviar tu reporte. Intenta de nuevo.",
   },
   en: {
     intro: "What taxi rides actually cost in Cartagena, reported by the people who paid them.",
@@ -142,6 +144,7 @@ export const COPY: Record<Locale, Dict> = {
     youPaid: "You paid",
     mostPay: "Most people pay",
     reportAnother: "Report another ride",
+    submitError: "We couldn't submit your report. Please try again.",
   },
   fr: {
     intro: "Ce que coûtent vraiment les courses de taxi à Carthagène, rapporté par ceux qui les ont payées.",
@@ -189,6 +192,7 @@ export const COPY: Record<Locale, Dict> = {
     youPaid: "Vous avez payé",
     mostPay: "La majorité paie",
     reportAnother: "Signaler un autre trajet",
+    submitError: "Nous n'avons pas pu envoyer votre signalement. Réessayez.",
   },
 };
 
@@ -206,6 +210,15 @@ export function confidenceCaption(display: DisplayRange, locale: Locale): string
     return `${t.estimated} · ${display.totalReportCount} ${reportWord(display.totalReportCount, locale)}`;
   }
   return `${display.totalReportCount} ${t.reportMany} · ${t.updated} ${relativeTime(display.updatedAt!, locale)}`;
+}
+
+// The shorter date line shown next to the animated count on the
+// confirmation card (distinct wording from confidenceCaption, same
+// estimated/confirmed split).
+export function confirmedDateLabel(display: DisplayRange, locale: Locale): string {
+  const t = COPY[locale];
+  if (display.kind === "zero" || display.certainty === "estimated") return t.estimated.toLowerCase();
+  return `${t.updated} ${relativeTime(display.updatedAt!, locale)}`;
 }
 
 const ROUTE_TITLE: Record<Locale, (o: string, d: string) => string> = {
