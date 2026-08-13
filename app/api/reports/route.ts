@@ -116,7 +116,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ display });
   } catch (err) {
     console.error("submission failed", err);
-    // TEMPORARY debug aid, reverted immediately after diagnosis.
-    return NextResponse.json({ error: "Couldn't submit, try again.", debug: err instanceof Error ? err.message : String(err) }, { status: 500 });
+    return neutralError(500);
   }
 }
