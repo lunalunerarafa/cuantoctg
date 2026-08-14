@@ -1,13 +1,50 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import ShareLink from "./ShareLink";
+import { useState, useSyncExternalStore } from "react";
 import { confirmedDateLabel, COPY, reportWord, WORDMARK } from "@/lib/copy";
 import { formatAmount, formatRange } from "@/lib/range";
 import type { DisplayRange, Locale, PlaceId } from "@/lib/types";
 
 type UiState = "closed" | "open" | "submitting" | "confirmed";
+
+// navigator.share is a browser capability, not React state — subscribing
+// via useSyncExternalStore (no-op subscribe, since it never changes after
+// mount) reads it safely without a hydration mismatch, and without the
+// effect+setState render-cascade that a plain useEffect check would cause.
+function subscribeToNothing() {
+  return () => {};
+}
+
+function canShareSnapshot() {
+  return /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || "") && typeof navigator.share === "function";
+}
+
+// Native share is mobile-only — no system share sheet worth surfacing on
+// desktop. The only remaining consumer of this is ReportForm itself
+// (closed and confirmed states, always with a route that has reports), so
+// it lives here as a local helper rather than its own file.
+function ShareLink({ originLabel, destinationLabel, rangeLabel, shareLabel }: { originLabel: string; destinationLabel: string; rangeLabel: string; shareLabel: string }) {
+  const canShare = useSyncExternalStore(subscribeToNothing, canShareSnapshot, () => false);
+  if (!canShare) return null;
+
+  return (
+    <span
+      onClick={() => {
+        navigator
+          .share({
+            title: "cuánto cuesta cartagena",
+            text: `${originLabel} → ${destinationLabel}: ${rangeLabel}`,
+            url: window.location.href,
+          })
+          .catch(() => {});
+      }}
+      className="cursor-pointer text-[10.5px] font-medium underline opacity-50"
+    >
+      {shareLabel}
+    </span>
+  );
+}
 
 export default function ReportForm({
   locale,
@@ -95,7 +132,6 @@ export default function ReportForm({
           destinationLabel={t.destination}
           rangeLabel={formatRange(confirmedDisplay.min, confirmedDisplay.max)}
           shareLabel={t.share}
-          eligible
         />
       </div>
     );
@@ -159,7 +195,6 @@ export default function ReportForm({
           destinationLabel={t.destination}
           rangeLabel={formatRange(initialDisplay.min, initialDisplay.max)}
           shareLabel={t.share}
-          eligible
         />
       )}
     </div>
