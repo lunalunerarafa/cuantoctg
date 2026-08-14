@@ -126,15 +126,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    for (const locale of LOCALES) {
-      revalidatePath(`/${locale}/${origin}/${destination}`);
+    let step = "revalidate";
+    try {
+      for (const locale of LOCALES) {
+        revalidatePath(`/${locale}/${origin}/${destination}`);
+      }
+
+      step = "getSeedStat";
+      const seed = getSeedStat(origin as PlaceId, destination as PlaceId);
+
+      step = "getUserReports";
+      const userReports = await getUserReports(origin as PlaceId, destination as PlaceId);
+
+      step = "computeDisplayRange";
+      const display = computeDisplayRange(seed, userReports);
+
+      step = "json";
+      return NextResponse.json({ display });
+    } catch (stepErr) {
+      // TEMPORARY debug aid, reverted immediately after diagnosis.
+      return NextResponse.json(
+        {
+          error: "Couldn't submit, try again.",
+          debug: { step, message: stepErr instanceof Error ? stepErr.message : String(stepErr) },
+        },
+        { status: 500 },
+      );
     }
-
-    const seed = getSeedStat(origin as PlaceId, destination as PlaceId);
-    const userReports = await getUserReports(origin as PlaceId, destination as PlaceId);
-    const display = computeDisplayRange(seed, userReports);
-
-    return NextResponse.json({ display });
   } catch (err) {
     console.error("submission failed", err);
     // TEMPORARY debug aid, reverted immediately after diagnosis.
