@@ -23,7 +23,7 @@ export default async function LangLayout({
   return (
     <html lang={lang}>
       <body className={`${inter.variable} ${archivo.variable} antialiased`}>
-        <div className="mx-auto min-h-screen w-full max-w-md bg-surface md:my-10 md:max-w-xl md:rounded-[10px] md:border md:border-ink">{children}</div>
+        <div className="mx-auto min-h-screen w-full max-w-md bg-surface md:my-10 md:min-h-0 md:max-w-xl md:rounded-[10px] md:border md:border-ink">{children}</div>
         <Analytics />
       </body>
     </html>
