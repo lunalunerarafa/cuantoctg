@@ -104,7 +104,27 @@ export async function POST(req: NextRequest) {
     });
 
     // TEMPORARY debug aid, reverted immediately after diagnosis.
-    if (!accepted) return NextResponse.json({ error: "Couldn't submit, try again.", debug: rejectReason }, { status: 400 });
+    if (!accepted) {
+      return NextResponse.json(
+        {
+          error: "Couldn't submit, try again.",
+          debug: {
+            rejectReason,
+            allowed: process.env.NEXT_PUBLIC_SITE_URL,
+            originHeader: req.headers.get("origin"),
+            refererHeader: req.headers.get("referer"),
+            honeypotOk,
+            originOk,
+            timingOk,
+            amountOk,
+            rateOk,
+            hourlyCount,
+            routeDailyCount,
+          },
+        },
+        { status: 400 },
+      );
+    }
 
     for (const locale of LOCALES) {
       revalidatePath(`/${locale}/${origin}/${destination}`);
