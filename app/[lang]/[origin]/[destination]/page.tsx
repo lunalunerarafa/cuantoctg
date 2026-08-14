@@ -68,7 +68,7 @@ export default async function RoutePage({
 
   return (
     <div className="flex min-h-screen flex-col md:min-h-0">
-      <header className="flex items-center justify-between border-b border-ink px-[18px] py-[14px]">
+      <header className="flex items-center justify-between border-b border-ink px-[18px] py-[14px] md:px-[28px] md:py-[18px]">
         <Link href={`/${locale}`} className="text-[15px] leading-none font-bold tracking-[-0.01em]">
           cuánto cuesta
           <small className="mt-1 block text-[9px] font-medium tracking-[.06em] uppercase opacity-55">Cartagena</small>
@@ -76,7 +76,7 @@ export default async function RoutePage({
         <LangSwitch locale={locale} segments={[originId, destinationId]} />
       </header>
 
-      <div className="flex-1 px-[18px] py-[18px]">
+      <div className="flex-1 px-[18px] py-[18px] md:px-[28px]">
         <div className="flex flex-col gap-[7px] rounded-[8px] border border-ink p-[20px_16px] text-center">
           <div className="text-[9.5px] font-semibold opacity-50">
             {originLabel} → {destinationLabel}
@@ -90,7 +90,7 @@ export default async function RoutePage({
             </div>
           ) : (
             <>
-              <div className="fare-num text-[36px] font-extrabold text-ink">{rangeLabel}</div>
+              <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{rangeLabel}</div>
               <div className="text-[10px] opacity-55">{confidenceCaption(display, locale)}</div>
               <div className="mt-[6px] text-[8.5px] font-bold tracking-[.02em] opacity-40">{WORDMARK}</div>
             </>
@@ -101,7 +101,7 @@ export default async function RoutePage({
               <Link
                 key={id}
                 href={`/${locale}/${originId}/${id}`}
-                className={`rounded-[3px] border border-ink px-[10px] py-[5px] text-[11px] font-medium ${
+                className={`rounded-[3px] border border-ink px-[10px] py-[5px] text-[11px] font-medium md:px-[16px] md:py-[9px] md:text-[13px] ${
                   id === destinationId ? "bg-ink text-surface" : ""
                 }`}
               >

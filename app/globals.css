@@ -10,7 +10,7 @@
 }
 
 body {
-  background: var(--color-page);
+  background: var(--color-surface);
   color: var(--color-ink);
 }
 

@@ -29,7 +29,7 @@ export default async function HomePage({
 
   return (
     <div className="flex min-h-screen flex-col md:min-h-0">
-      <header className="flex items-center justify-between border-b border-ink px-[18px] py-[14px]">
+      <header className="flex items-center justify-between border-b border-ink px-[18px] py-[14px] md:px-[28px] md:py-[18px]">
         <div className="text-[15px] font-bold leading-none tracking-[-0.01em]">
           cuánto cuesta
           <small className="mt-1 block text-[9px] font-medium uppercase tracking-[.06em] opacity-55">Cartagena</small>
@@ -38,18 +38,18 @@ export default async function HomePage({
       </header>
 
       <div className="px-[18px] pt-4 pb-1">
-        <p className="text-[12px] leading-[1.4] font-semibold text-black/65">{t.intro}</p>
-        <p className="mt-[3px] text-[10.5px] opacity-45">{t.tagline}</p>
+        <p className="text-[12px] leading-[1.4] font-semibold text-black/65 md:text-[16px]">{t.intro}</p>
+        <p className="mt-[3px] text-[10.5px] opacity-45 md:text-[12px]">{t.tagline}</p>
       </div>
 
-      <div className="mx-[18px] mt-[14px] mb-[6px]">
-        <div className="mb-2 text-[9px] font-bold tracking-[.08em] text-black/40 uppercase">{t.origin}</div>
-        <div className="flex flex-wrap gap-[6px]">
+      <div className="mx-[18px] mt-[14px] mb-[6px] md:mx-[28px]">
+        <div className="mb-2 text-[9px] font-bold tracking-[.08em] text-black/40 uppercase md:text-[10px]">{t.origin}</div>
+        <div className="flex flex-wrap gap-[6px] md:gap-[8px]">
           {PLACE_IDS.map((id) => (
             <Link
               key={id}
               href={`/${locale}?origin=${id}`}
-              className={`rounded-[3px] border border-ink px-[13px] py-[7px] text-[12px] font-medium ${
+              className={`rounded-[3px] border border-ink px-[13px] py-[7px] text-[12px] font-medium md:px-[16px] md:py-[9px] md:text-[13px] ${
                 id === origin ? "bg-ink text-surface" : ""
               }`}
             >
@@ -59,15 +59,15 @@ export default async function HomePage({
         </div>
       </div>
 
-      <div className="mx-[18px] mt-4 mb-[10px]">
-        <div className="mb-2 text-[9px] font-bold tracking-[.08em] text-black/40 uppercase">{t.destination}</div>
-        <div className="flex flex-wrap gap-[6px]">
+      <div className="mx-[18px] mt-4 mb-[10px] md:mx-[28px]">
+        <div className="mb-2 text-[9px] font-bold tracking-[.08em] text-black/40 uppercase md:text-[10px]">{t.destination}</div>
+        <div className="flex flex-wrap gap-[6px] md:gap-[8px]">
           {PLACE_IDS.map((id) => {
             if (!isValidRoute(origin, id)) {
               return (
                 <span
                   key={id}
-                  className="rounded-[3px] border border-ink px-[13px] py-[7px] text-[12px] font-medium opacity-[.32]"
+                  className="rounded-[3px] border border-ink px-[13px] py-[7px] text-[12px] font-medium opacity-[.32] md:px-[16px] md:py-[9px] md:text-[13px]"
                 >
                   {placeLabel(id, locale)}
                 </span>
@@ -77,7 +77,7 @@ export default async function HomePage({
               <Link
                 key={id}
                 href={`/${locale}/${origin}/${id}`}
-                className="rounded-[3px] border border-ink px-[13px] py-[7px] text-[12px] font-medium"
+                className="rounded-[3px] border border-ink px-[13px] py-[7px] text-[12px] font-medium md:px-[16px] md:py-[9px] md:text-[13px]"
               >
                 {placeLabel(id, locale)}
               </Link>
