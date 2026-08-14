@@ -103,64 +103,19 @@ export async function POST(req: NextRequest) {
       rejectReason,
     });
 
-    // TEMPORARY debug aid, reverted immediately after diagnosis.
-    if (!accepted) {
-      return NextResponse.json(
-        {
-          error: "Couldn't submit, try again.",
-          debug: {
-            rejectReason,
-            allowed: process.env.NEXT_PUBLIC_SITE_URL,
-            originHeader: req.headers.get("origin"),
-            refererHeader: req.headers.get("referer"),
-            honeypotOk,
-            originOk,
-            timingOk,
-            amountOk,
-            rateOk,
-            hourlyCount,
-            routeDailyCount,
-          },
-        },
-        { status: 400 },
-      );
+    if (!accepted) return neutralError();
+
+    for (const locale of LOCALES) {
+      revalidatePath(`/${locale}/${origin}/${destination}`);
     }
 
-    let step = "revalidate";
-    try {
-      for (const locale of LOCALES) {
-        revalidatePath(`/${locale}/${origin}/${destination}`);
-      }
+    const seed = getSeedStat(origin as PlaceId, destination as PlaceId);
+    const userReports = await getUserReports(origin as PlaceId, destination as PlaceId);
+    const display = computeDisplayRange(seed, userReports);
 
-      step = "getSeedStat";
-      const seed = getSeedStat(origin as PlaceId, destination as PlaceId);
-
-      step = "getUserReports";
-      const userReports = await getUserReports(origin as PlaceId, destination as PlaceId);
-
-      step = "computeDisplayRange";
-      const display = computeDisplayRange(seed, userReports);
-
-      step = "json";
-      return NextResponse.json({ display });
-    } catch (stepErr) {
-      // TEMPORARY debug aid, reverted immediately after diagnosis.
-      return NextResponse.json(
-        {
-          error: "Couldn't submit, try again.",
-          debug: { step, message: stepErr instanceof Error ? stepErr.message : String(stepErr) },
-        },
-        { status: 500 },
-      );
-    }
+    return NextResponse.json({ display });
   } catch (err) {
     console.error("submission failed", err);
-    // TEMPORARY debug aid, reverted immediately after diagnosis.
-    const debug = {
-      ctor: err?.constructor?.name,
-      props: err && typeof err === "object" ? JSON.stringify(err, Object.getOwnPropertyNames(err)) : String(err),
-      stack: err instanceof Error ? err.stack?.split("\n").slice(0, 6).join(" | ") : undefined,
-    };
-    return NextResponse.json({ error: "Couldn't submit, try again.", debug }, { status: 500 });
+    return neutralError(500);
   }
 }
