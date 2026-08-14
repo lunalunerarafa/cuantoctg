@@ -116,6 +116,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ display });
   } catch (err) {
     console.error("submission failed", err);
-    return neutralError(500);
+    // TEMPORARY debug aid, reverted immediately after diagnosis.
+    const debug = err && typeof err === "object" ? JSON.stringify(err, Object.getOwnPropertyNames(err)) : String(err);
+    return NextResponse.json({ error: "Couldn't submit, try again.", debug }, { status: 500 });
   }
 }
