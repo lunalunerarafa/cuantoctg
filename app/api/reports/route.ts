@@ -118,7 +118,11 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error("submission failed", err);
     // TEMPORARY debug aid, reverted immediately after diagnosis.
-    const debug = err && typeof err === "object" ? JSON.stringify(err, Object.getOwnPropertyNames(err)) : String(err);
+    const debug = {
+      ctor: err?.constructor?.name,
+      props: err && typeof err === "object" ? JSON.stringify(err, Object.getOwnPropertyNames(err)) : String(err),
+      stack: err instanceof Error ? err.stack?.split("\n").slice(0, 6).join(" | ") : undefined,
+    };
     return NextResponse.json({ error: "Couldn't submit, try again.", debug }, { status: 500 });
   }
 }
