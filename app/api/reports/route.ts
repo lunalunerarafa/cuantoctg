@@ -103,7 +103,8 @@ export async function POST(req: NextRequest) {
       rejectReason,
     });
 
-    if (!accepted) return neutralError();
+    // TEMPORARY debug aid, reverted immediately after diagnosis.
+    if (!accepted) return NextResponse.json({ error: "Couldn't submit, try again.", debug: rejectReason }, { status: 400 });
 
     for (const locale of LOCALES) {
       revalidatePath(`/${locale}/${origin}/${destination}`);
