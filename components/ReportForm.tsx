@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { confirmedDateLabel, COPY, reportWord, WORDMARK } from "@/lib/copy";
@@ -31,6 +32,7 @@ function ShareLink({ originLabel, destinationLabel, rangeLabel, shareLabel }: { 
   return (
     <span
       onClick={() => {
+        track("share initiated");
         navigator
           .share({
             title: "cuánto cuesta cartagena",
@@ -91,6 +93,7 @@ export default function ReportForm({
       });
       if (!res.ok) throw new Error("rejected");
       const { display } = (await res.json()) as { display: DisplayRange };
+      track("submission completed");
       setConfirmedDisplay(display);
       setPaidAmount(Number(amountDigits));
       setUiState("confirmed");

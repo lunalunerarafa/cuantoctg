@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Archivo, Inter } from "next/font/google";
 import type { ReactNode } from "react";
@@ -23,6 +24,7 @@ export default async function LangLayout({
     <html lang={lang}>
       <body className={`${inter.variable} ${archivo.variable} antialiased`}>
         <div className="mx-auto min-h-screen max-w-md bg-surface">{children}</div>
+        <Analytics />
       </body>
     </html>
   );
