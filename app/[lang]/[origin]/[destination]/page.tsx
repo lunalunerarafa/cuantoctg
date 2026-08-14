@@ -5,7 +5,7 @@ import LangSwitch from "@/components/LangSwitch";
 import ReportForm from "@/components/ReportForm";
 import { confidenceCaption, COPY, routeDescription, routeTitle, WORDMARK } from "@/lib/copy";
 import { formatRange } from "@/lib/range";
-import { computeDisplayRange, getSeedStat, isValidRoute, placeLabel, VALID_ROUTES } from "@/lib/routes";
+import { computeDisplayRange, getSeedStat, isValidRoute, placeLabel, PLACE_IDS, VALID_ROUTES } from "@/lib/routes";
 import { getUserReports } from "@/lib/supabase";
 import { LOCALES } from "@/lib/types";
 import type { Locale, PlaceId } from "@/lib/types";
@@ -83,7 +83,11 @@ export default async function RoutePage({
           </div>
 
           {display.kind === "zero" ? (
-            <div className="text-[11px] leading-[1.4] opacity-60">{t.zeroState}</div>
+            <div className="text-[11px] leading-[1.4] opacity-60">
+              {t.zeroState}
+              <br />
+              <span className="font-semibold opacity-90">{t.zeroStateCta}</span>
+            </div>
           ) : (
             <>
               <div className="fare-num text-[36px] font-extrabold text-ink">{rangeLabel}</div>
@@ -91,6 +95,20 @@ export default async function RoutePage({
               <div className="mt-[6px] text-[8.5px] font-bold tracking-[.02em] opacity-40">{WORDMARK}</div>
             </>
           )}
+
+          <div className="mt-3 flex flex-wrap justify-center gap-[6px]">
+            {PLACE_IDS.filter((id) => isValidRoute(originId, id)).map((id) => (
+              <Link
+                key={id}
+                href={`/${locale}/${originId}/${id}`}
+                className={`rounded-[3px] border border-ink px-[10px] py-[5px] text-[11px] font-medium ${
+                  id === destinationId ? "bg-ink text-surface" : ""
+                }`}
+              >
+                {placeLabel(id, locale)}
+              </Link>
+            ))}
+          </div>
         </div>
 
         <div className="mt-4 flex flex-col items-center gap-2">

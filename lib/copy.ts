@@ -19,6 +19,7 @@ type Dict = {
   estimated: string;
   updated: string;
   zeroState: string;
+  zeroStateCta: string;
   howItWorks: string;
   methodTitle: string;
   whyTitle: string;
@@ -66,6 +67,7 @@ export const COPY: Record<Locale, Dict> = {
     estimated: "Estimado",
     updated: "actualizado",
     zeroState: "Nadie ha reportado esta ruta todavía.",
+    zeroStateCta: "Sé el primero en reportarla.",
     howItWorks: "Cómo funciona",
     methodTitle: "De dónde salen los precios",
     whyTitle: "Por qué hacemos esto",
@@ -114,6 +116,7 @@ export const COPY: Record<Locale, Dict> = {
     estimated: "Estimated",
     updated: "updated",
     zeroState: "Nobody has reported this route yet.",
+    zeroStateCta: "Be the first to report it.",
     howItWorks: "How it works",
     methodTitle: "Where the prices come from",
     whyTitle: "Why we're doing this",
@@ -162,6 +165,7 @@ export const COPY: Record<Locale, Dict> = {
     estimated: "Estimé",
     updated: "mis à jour",
     zeroState: "Personne n'a encore signalé cet itinéraire.",
+    zeroStateCta: "Soyez le premier à la signaler.",
     howItWorks: "Comment ça marche",
     methodTitle: "D'où viennent les prix",
     whyTitle: "Pourquoi on fait ça",
