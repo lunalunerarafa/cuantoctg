@@ -48,7 +48,7 @@ export default async function MethodologyPage({ params }: { params: Promise<{ la
   ];
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col md:min-h-0">
       <header className="flex items-center gap-[10px] border-b border-ink px-[18px] py-[14px]">
         <Link href={`/${locale}`} className="text-[16px]" aria-label={t.howItWorks}>
           ←
