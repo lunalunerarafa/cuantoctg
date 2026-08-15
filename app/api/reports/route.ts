@@ -8,7 +8,13 @@ const MIN_AMOUNT_COP = 3000;
 const MAX_AMOUNT_COP = 300000;
 const HOUR_MS = 60 * 60 * 1000;
 const DAY_MS = 24 * HOUR_MS;
-const HOURLY_LIMIT = 10;
+// Colombian mobile carriers use carrier-grade NAT extensively, so many
+// distinct riders can share one public IP. A low per-IP hourly cap
+// collides them into the same bucket — raised well above what a real
+// person would ever hit, while still catching a script blasting the
+// endpoint. The per-route daily cap is the more meaningful defense
+// against any one person flipping a route's number.
+const HOURLY_LIMIT = 60;
 const ROUTE_DAILY_LIMIT = 3;
 const MIN_FORM_MS = 2000;
 
@@ -103,22 +109,7 @@ export async function POST(req: NextRequest) {
       rejectReason,
     });
 
-    if (!accepted) {
-      // TEMPORARY debug logging — remove once the failing check is identified.
-      // The client still only shows t.submitError; this is for Vercel's
-      // function logs / a direct look at the response body.
-      console.error("report rejected", {
-        rejectReason,
-        origin,
-        destination,
-        clientIp,
-        ipHash: ipHash.slice(0, 12),
-        hourlyCount,
-        routeDailyCount,
-        xForwardedFor: req.headers.get("x-forwarded-for"),
-      });
-      return NextResponse.json({ error: rejectReason }, { status: 400 });
-    }
+    if (!accepted) return neutralError();
 
     for (const locale of LOCALES) {
       revalidatePath(`/${locale}/${origin}/${destination}`);

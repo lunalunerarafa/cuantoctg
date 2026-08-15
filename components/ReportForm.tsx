@@ -171,8 +171,7 @@ export default function ReportForm({
       setConfirmedDisplay(display);
       setPaidAmount(Number(amountDigits));
       setUiState("confirmed");
-    } catch (err) {
-      console.error("report submit failed", err);
+    } catch {
       setErrorMsg(t.submitError);
       setUiState("open");
     }
