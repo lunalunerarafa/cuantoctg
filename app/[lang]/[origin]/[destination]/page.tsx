@@ -95,7 +95,7 @@ export default async function RoutePage({
       </div>
 
       <div className="mt-auto flex flex-col gap-3 border-t border-black/10 px-[18px] py-4">
-        <Link href={`/${locale}/como-funciona`} className="text-center text-[9px] opacity-40">
+        <Link href={`/${locale}/como-funciona`} className="text-center text-[11.5px] font-semibold opacity-55">
           {t.howItWorks}
         </Link>
       </div>

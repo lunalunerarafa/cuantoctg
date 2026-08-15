@@ -116,10 +116,10 @@ export default async function HomePage({
           </div>
         </div>
 
-        <div className="px-[18px] py-[18px] text-center text-[11px] opacity-40">{t.chooseDestination}</div>
+        <div className="px-[18px] py-[18px] md:pb-[64px] text-center text-[11px] opacity-40">{t.chooseDestination}</div>
 
         <div className="mt-auto flex flex-col gap-3 border-t border-black/10 px-[18px] py-4">
-          <Link href={`/${locale}/como-funciona`} className="text-center text-[9px] opacity-40">
+          <Link href={`/${locale}/como-funciona`} className="text-center text-[11.5px] font-semibold opacity-55">
             {t.howItWorks}
           </Link>
         </div>

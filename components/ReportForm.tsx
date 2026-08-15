@@ -232,6 +232,7 @@ export default function ReportForm({
           className="flex w-full flex-col gap-2 rounded-[6px] border border-ink p-[14px]"
         >
           {errorMsg && <div className="text-[10.5px] text-black/60">{errorMsg}</div>}
+          <div className="text-[10px] opacity-50">{t.reportIncentive}</div>
           <div className="text-[10.5px] font-semibold">{t.howMuchPaid}</div>
           <div className="flex gap-2">
             <input

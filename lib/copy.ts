@@ -58,6 +58,7 @@ type Dict = {
   officialOnlyNote: string;
   backHome: string;
   notEnoughDataYet: string;
+  reportIncentive: string;
 };
 
 export const WORDMARK = "cuánto cuesta cartagena";
@@ -125,6 +126,7 @@ export const COPY: Record<Locale, Dict> = {
       "Esta es la tarifa fijada por decreto. Aún no hay reportes de viajeros — lo que se paga en la calle puede variar según el tráfico, la hora y la negociación con el conductor.",
     backHome: "Inicio",
     notEnoughDataYet: "Aún no hay suficientes reportes para saber cuánto paga la mayoría.",
+    reportIncentive: "Cada reporte hace el precio más confiable para el próximo viajero.",
   },
   en: {
     intro: "What taxi rides actually cost in Cartagena, reported by the people who paid them.",
@@ -188,6 +190,7 @@ export const COPY: Record<Locale, Dict> = {
       "This is the government-set fare. No rider reports yet — what people actually pay on the street can vary with traffic, time of day, and negotiation with the driver.",
     backHome: "Home",
     notEnoughDataYet: "Not enough reports yet to know what most people pay.",
+    reportIncentive: "Every report makes the fare more reliable for the next traveler.",
   },
   fr: {
     intro: "Ce que coûtent vraiment les courses de taxi à Carthagène, rapporté par ceux qui les ont payées.",
@@ -251,6 +254,7 @@ export const COPY: Record<Locale, Dict> = {
       "C'est le tarif fixé par décret. Pas encore de signalements de voyageurs — ce qui est réellement payé peut varier selon le trafic, l'heure et la négociation avec le chauffeur.",
     backHome: "Accueil",
     notEnoughDataYet: "Pas encore assez de signalements pour savoir ce que paie la majorité.",
+    reportIncentive: "Chaque signalement rend le tarif plus fiable pour le prochain voyageur.",
   },
 };
 
