@@ -237,7 +237,7 @@ export default function ReportForm({
               placeholder="18.000"
               inputMode="numeric"
               autoFocus
-              className="fare-num flex-1 rounded-[3px] border border-ink px-[9px] py-[9px] text-[13px] outline-none"
+              className="fare-num flex-1 rounded-[3px] border border-ink px-[9px] py-[9px] text-[16px] outline-none"
             />
             {/* Honeypot: visually hidden, real input (not type="hidden" — some
                 simple bots skip those), neutral name so autofill can't
