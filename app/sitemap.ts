@@ -2,16 +2,16 @@ import type { MetadataRoute } from "next";
 import { VALID_ROUTES } from "@/lib/routes";
 import { LOCALES } from "@/lib/types";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const BASE = "https://cuantocuestacartagena.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [];
 
   for (const locale of LOCALES) {
-    entries.push({ url: `${SITE_URL}/${locale}`, changeFrequency: "weekly" });
-    entries.push({ url: `${SITE_URL}/${locale}/como-funciona`, changeFrequency: "monthly" });
+    entries.push({ url: `${BASE}/${locale}`, changeFrequency: "daily", priority: 1 });
+    entries.push({ url: `${BASE}/${locale}/como-funciona`, changeFrequency: "monthly", priority: 0.5 });
     for (const { origin, destination } of VALID_ROUTES) {
-      entries.push({ url: `${SITE_URL}/${locale}/${origin}/${destination}`, changeFrequency: "daily" });
+      entries.push({ url: `${BASE}/${locale}/${origin}/${destination}`, changeFrequency: "weekly", priority: 0.8 });
     }
   }
 

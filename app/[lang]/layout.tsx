@@ -8,7 +8,25 @@ const inter = Inter({ subsets: ["latin"], weight: ["400", "500", "600", "700"], 
 const archivo = Archivo({ subsets: ["latin"], weight: ["500", "600", "700", "800"], variable: "--font-archivo" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  metadataBase: new URL("https://cuantocuestacartagena.com"),
+  title: {
+    default: "Cuánto Cuesta un Taxi en Cartagena — Tarifas Reales",
+    template: "%s | Cuánto Cuesta Cartagena",
+  },
+  description:
+    "Cuánto cuesta un taxi en Cartagena, reportado por quienes pagaron. Tarifas reales entre barrios, sin adivinar.",
+  alternates: {
+    canonical: "https://cuantocuestacartagena.com",
+    languages: { es: "/es", en: "/en", fr: "/fr" },
+  },
+  openGraph: {
+    title: "Cuánto Cuesta un Taxi en Cartagena",
+    description: "Tarifas reales de taxi en Cartagena, reportadas por viajeros.",
+    url: "https://cuantocuestacartagena.com",
+    siteName: "Cuánto Cuesta Cartagena",
+    locale: "es_CO",
+    type: "website",
+  },
 };
 
 export const viewport: Viewport = {
