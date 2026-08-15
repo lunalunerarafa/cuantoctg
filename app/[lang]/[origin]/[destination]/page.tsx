@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import LangSwitch from "@/components/LangSwitch";
 import ReportForm from "@/components/ReportForm";
-import { confidenceCaption, COPY, routeDescription, routeTitle, WORDMARK } from "@/lib/copy";
+import { COPY, routeDescription, routeTitle } from "@/lib/copy";
 import { formatRange } from "@/lib/range";
 import { computeDisplayRange, getSeedStat, isValidRoute, placeLabel, VALID_ROUTES } from "@/lib/routes";
 import { getUserReports } from "@/lib/supabase";
@@ -77,28 +77,16 @@ export default async function RoutePage({
       </header>
 
       <div className="flex-1 px-[18px] py-[18px] md:px-[28px]">
-        <div className="flex flex-col gap-[7px] rounded-[8px] border border-ink p-[20px_16px] text-center">
-          <div className="text-[9.5px] font-semibold opacity-50">
-            {originLabel} → {destinationLabel}
-          </div>
-
-          {display.kind === "zero" ? (
-            <div className="text-[11px] leading-[1.4] opacity-60">
-              {t.zeroState}
-              <br />
-              <span className="font-semibold opacity-90">{t.zeroStateCta}</span>
-            </div>
-          ) : (
-            <>
-              <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{rangeLabel}</div>
-              <div className="text-[10px] opacity-55">{confidenceCaption(display, locale)}</div>
-              <div className="mt-[6px] text-[8.5px] font-bold tracking-[.02em] opacity-40">{WORDMARK}</div>
-            </>
-          )}
-        </div>
-
-        <div className="mt-4 flex flex-col items-center gap-2">
-          <ReportForm locale={locale} originId={originId} destinationId={destinationId} initialDisplay={display} />
+        <div className="flex flex-col items-center gap-2">
+          <ReportForm
+            locale={locale}
+            originId={originId}
+            destinationId={destinationId}
+            initialDisplay={display}
+            originLabel={originLabel}
+            destinationLabel={destinationLabel}
+            rangeLabel={rangeLabel}
+          />
         </div>
       </div>
 

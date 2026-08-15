@@ -3,7 +3,7 @@
 import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
-import { confirmedDateLabel, COPY, reportWord, WORDMARK } from "@/lib/copy";
+import { confidenceCaption, confirmedDateLabel, COPY, reportWord, WORDMARK } from "@/lib/copy";
 import { formatAmount, formatRange } from "@/lib/range";
 import type { DisplayRange, Locale, PlaceId } from "@/lib/types";
 
@@ -53,13 +53,40 @@ export default function ReportForm({
   originId,
   destinationId,
   initialDisplay,
+  originLabel,
+  destinationLabel,
+  rangeLabel,
 }: {
   locale: Locale;
   originId: PlaceId;
   destinationId: PlaceId;
   initialDisplay: DisplayRange;
+  originLabel: string;
+  destinationLabel: string;
+  rangeLabel: string;
 }) {
   const t = COPY[locale];
+
+  const fareCard = (
+    <div className="mb-4 flex w-full flex-col gap-[7px] rounded-[8px] border border-ink p-[20px_16px] text-center">
+      <div className="text-[9.5px] font-semibold opacity-50">
+        {originLabel} → {destinationLabel}
+      </div>
+      {initialDisplay.kind === "zero" ? (
+        <div className="text-[11px] leading-[1.4] opacity-60">
+          {t.zeroState}
+          <br />
+          <span className="font-semibold opacity-90">{t.zeroStateCta}</span>
+        </div>
+      ) : (
+        <>
+          <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{rangeLabel}</div>
+          <div className="text-[10px] opacity-55">{confidenceCaption(initialDisplay, locale)}</div>
+          <div className="mt-[6px] text-[8.5px] font-bold tracking-[.02em] opacity-40">{WORDMARK}</div>
+        </>
+      )}
+    </div>
+  );
   const [uiState, setUiState] = useState<UiState>("open");
   const [formOpenedAt, setFormOpenedAt] = useState<number | null>(() => Date.now());
   const [amountDigits, setAmountDigits] = useState("");
@@ -143,6 +170,7 @@ export default function ReportForm({
   if (uiState === "open" || uiState === "submitting") {
     return (
       <>
+        {fareCard}
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -195,21 +223,24 @@ export default function ReportForm({
   }
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <button
-        onClick={openForm}
-        className="rounded-[5px] bg-ink px-[18px] py-[11px] text-[12.5px] font-bold text-surface"
-      >
-        {t.reportPrice}
-      </button>
-      {initialDisplay.kind === "value" && (
-        <ShareLink
-          originLabel={t.origin}
-          destinationLabel={t.destination}
-          rangeLabel={formatRange(initialDisplay.min, initialDisplay.max)}
-          shareLabel={t.share}
-        />
-      )}
-    </div>
+    <>
+      {fareCard}
+      <div className="flex flex-col items-center gap-2">
+        <button
+          onClick={openForm}
+          className="rounded-[5px] bg-ink px-[18px] py-[11px] text-[12.5px] font-bold text-surface"
+        >
+          {t.reportPrice}
+        </button>
+        {initialDisplay.kind === "value" && (
+          <ShareLink
+            originLabel={t.origin}
+            destinationLabel={t.destination}
+            rangeLabel={formatRange(initialDisplay.min, initialDisplay.max)}
+            shareLabel={t.share}
+          />
+        )}
+      </div>
+    </>
   );
 }
