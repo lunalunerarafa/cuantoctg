@@ -27,6 +27,10 @@ export const metadata: Metadata = {
     locale: "es_CO",
     type: "website",
   },
+  // Bing Webmaster Tools site verification.
+  other: {
+    "msvalidate.01": "7374C9B83AC96A7C8223984BD8F0AC8C",
+  },
 };
 
 export const viewport: Viewport = {
