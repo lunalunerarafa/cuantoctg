@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import LangSwitch from "@/components/LangSwitch";
@@ -9,6 +10,22 @@ export const dynamicParams = false;
 
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));
+}
+
+// Self-referencing canonical per locale — without this, the homepage falls
+// back to the layout's default canonical (the bare domain), which folds
+// /es, /en, and /fr into one URL identity instead of three.
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  if (!LOCALES.includes(lang as Locale)) return {};
+  const locale = lang as Locale;
+
+  return {
+    alternates: {
+      canonical: `/${locale}`,
+      languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}`])),
+    },
+  };
 }
 
 export default async function HomePage({
