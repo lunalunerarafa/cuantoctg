@@ -36,6 +36,8 @@ type Dict = {
   recencyBody: string;
   trustTitle: string;
   trustBody: string;
+  officialTitle: string;
+  officialBody: string;
   dataTitle: string;
   dataBody: string;
   licenseTitle: string;
@@ -96,6 +98,9 @@ export const COPY: Record<Locale, Dict> = {
       "Al lado de cada precio decimos cuántos reportes lo respaldan y cuándo llegó el último. Un precio de hace cuatro meses puede estar desactualizado, y preferimos que lo sepas.",
     trustTitle: "No tenemos convenios con nadie",
     trustBody: "No trabajamos con ningún taxista ni empresa, y no ganamos nada con lo que pagues.",
+    officialTitle: "Cuando hay una tarifa oficial",
+    officialBody:
+      "Algunas rutas tienen una tarifa fijada por decreto municipal (Decreto 0051 de 2026), no por reportes de viajeros. La marcamos como tarifa oficial y citamos el decreto. Es un dato del gobierno, no un promedio nuestro — y lo que se paga en la calle puede diferir según el tráfico, la hora y la negociación con el conductor. Getsemaní comparte zona tarifaria con el Centro, así que cobra la tarifa mínima sin importar el destino exacto dentro de esa zona. El decreto también fija un recargo nocturno de $1.100 entre las 7 p.m. y las 5 a.m., que mostramos solo si estás viendo la página en ese horario.",
     dataTitle: "Tus datos",
     dataBody: "No pedimos correo, ni nombre, ni cuenta. Solo el monto que pagaste.",
     licenseTitle: "Usa estos datos",
@@ -154,6 +159,9 @@ export const COPY: Record<Locale, Dict> = {
       "Next to each price we say how many reports back it and when the last one came in. A price from four months ago may be out of date, and we'd rather you knew.",
     trustTitle: "We're not partnered with anyone",
     trustBody: "We don't work with any driver or company, and we make nothing off what you pay.",
+    officialTitle: "When there's an official tariff",
+    officialBody:
+      "Some routes have a fare set by municipal decree (Decree 0051 of 2026), not by rider reports. We label it as an official tariff and cite the decree. It's a government figure, not our average — and what people actually pay on the street can differ with traffic, time of day, and negotiation with the driver. Getsemaní shares a fare zone with Downtown, so the minimum fare applies regardless of the exact destination within that zone. The decree also sets a $1,100 night surcharge between 7pm and 5am, which we only show if you're viewing the page during those hours.",
     dataTitle: "Your data",
     dataBody: "We don't ask for email, name, or an account. Just the amount you paid.",
     licenseTitle: "Use this data",
@@ -212,6 +220,9 @@ export const COPY: Record<Locale, Dict> = {
       "À côté de chaque prix, on indique combien de signalements le soutiennent et quand le dernier est arrivé. Un prix d'il y a quatre mois peut être dépassé, et on préfère que vous le sachiez.",
     trustTitle: "On n'a d'accord avec personne",
     trustBody: "On ne travaille avec aucun chauffeur ni aucune entreprise, et on ne gagne rien sur ce que vous payez.",
+    officialTitle: "Quand il y a un tarif officiel",
+    officialBody:
+      "Certains trajets ont un tarif fixé par décret municipal (Décret 0051 de 2026), et non par des signalements de voyageurs. On l'indique comme tarif officiel et on cite le décret. C'est un chiffre du gouvernement, pas notre moyenne — et ce qui est réellement payé dans la rue peut varier selon le trafic, l'heure et la négociation avec le chauffeur. Getsemaní partage sa zone tarifaire avec le Centre, donc le tarif minimum s'applique quelle que soit la destination exacte dans cette zone. Le décret fixe aussi un supplément de nuit de 1 100 $ entre 19h et 5h, qu'on affiche seulement si vous consultez la page à ce moment-là.",
     dataTitle: "Vos données",
     dataBody: "Pas d'email, pas de nom, pas de compte. Juste le montant payé.",
     licenseTitle: "Utilisez ces données",

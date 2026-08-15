@@ -44,6 +44,7 @@ export default async function MethodologyPage({ params }: { params: Promise<{ la
     [t.calcTitle, t.calcBody],
     [t.recencyTitle, t.recencyBody],
     [t.trustTitle, t.trustBody],
+    [t.officialTitle, t.officialBody],
     [t.dataTitle, t.dataBody],
   ];
 
