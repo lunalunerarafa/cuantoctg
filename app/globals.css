@@ -9,6 +9,12 @@
   --font-fare: var(--font-archivo);
 }
 
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 body {
   background: var(--color-surface);
   color: var(--color-ink);

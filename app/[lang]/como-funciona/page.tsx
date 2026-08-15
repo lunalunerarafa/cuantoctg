@@ -61,21 +61,24 @@ export default async function MethodologyPage({ params }: { params: Promise<{ la
         {sections.map(([title, body]) => (
           <div key={title}>
             <div className="mb-[3px] text-[12.5px] font-bold">{title}</div>
-            <div className="leading-[1.55] opacity-65">{body}</div>
+            <div className="leading-[1.55] opacity-65 break-words">{body}</div>
           </div>
         ))}
 
         <div className="border-t border-black/12 pt-[14px]">
           <div className="mb-[3px] text-[12.5px] font-bold">{t.licenseTitle}</div>
-          <div className="leading-[1.55] opacity-65">{t.licenseBody}</div>
-          <a href="https://creativecommons.org/licenses/by/4.0/" className="mt-1 inline-block text-[10.5px] underline">
+          <div className="leading-[1.55] opacity-65 break-words">{t.licenseBody}</div>
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/"
+            className="mt-1 inline-block text-[10.5px] underline break-words"
+          >
             creativecommons.org/licenses/by/4.0
           </a>
         </div>
 
         <div className="mt-auto border-t border-black/12 pt-[14px]">
           <div className="mb-[3px] text-[12.5px] font-bold">{t.missingTitle}</div>
-          <div className="leading-[1.55] opacity-65">{t.missingBody}</div>
+          <div className="leading-[1.55] opacity-65 break-words">{t.missingBody}</div>
         </div>
       </div>
     </div>
