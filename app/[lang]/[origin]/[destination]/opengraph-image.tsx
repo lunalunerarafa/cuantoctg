@@ -1,8 +1,16 @@
 import { ImageResponse } from "next/og";
 import { notFound } from "next/navigation";
-import { COPY } from "@/lib/copy";
 import { formatRange } from "@/lib/range";
-import { computeDisplayRange, getSeedStat, isValidRoute, LOCALES, placeLabel } from "@/lib/routes";
+import {
+  computeDisplayRange,
+  getOfficialTariff,
+  getSeedStat,
+  isSameZone,
+  isValidRoute,
+  LOCALES,
+  officialTariffAmountLabel,
+  placeLabel,
+} from "@/lib/routes";
 import { getUserReports } from "@/lib/supabase";
 import type { Locale, PlaceId } from "@/lib/routes";
 
@@ -25,11 +33,23 @@ export default async function OgImage({
   const locale = lang as Locale;
   const originId = origin as PlaceId;
   const destinationId = destination as PlaceId;
-  const t = COPY[locale];
 
+  const officialTariff = getOfficialTariff(originId, destinationId);
+  const sameZone = isSameZone(originId, destinationId);
   const userReports = await getUserReports(originId, destinationId);
   const display = computeDisplayRange(getSeedStat(originId, destinationId), userReports);
-  const rangeText = display.kind === "value" ? `${formatRange(display.min, display.max)} COP` : t.zeroState;
+
+  // Mirrors the fareCard branch order in ReportForm.tsx: same-zone fixed
+  // fare, then a zero-state route that still has a decree tariff, then the
+  // crowd range, then a plain dash when there's genuinely nothing to show.
+  const fareText =
+    sameZone && officialTariff
+      ? officialTariffAmountLabel(officialTariff)
+      : display.kind === "zero" && officialTariff
+        ? officialTariffAmountLabel(officialTariff)
+        : display.kind === "value"
+          ? formatRange(display.min, display.max)
+          : "—";
 
   return new ImageResponse(
     (
@@ -40,18 +60,18 @@ export default async function OgImage({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "space-between",
-          background: "#eeece7",
-          padding: "72px",
+          justifyContent: "center",
+          background: "#ffffff",
+          fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", fontSize: 42, fontWeight: 600, color: "#17181c" }}>
+        <div style={{ display: "flex", fontSize: 32, fontWeight: 600, color: "rgba(23,24,28,0.55)", marginBottom: 16 }}>
           {placeLabel(originId, locale)} → {placeLabel(destinationId, locale)}
         </div>
-        <div style={{ display: "flex", fontSize: display.kind === "value" ? 96 : 44, fontWeight: 800, color: "#17181c", textAlign: "center" }}>
-          {rangeText}
+        <div style={{ display: "flex", fontSize: 120, fontWeight: 800, color: "#17181c", letterSpacing: "-0.02em" }}>{fareText}</div>
+        <div style={{ display: "flex", fontSize: 28, fontWeight: 700, color: "rgba(23,24,28,0.4)", marginTop: 40, letterSpacing: "0.04em" }}>
+          CUÁNTO CUESTA CARTAGENA
         </div>
-        <div style={{ fontSize: 30, fontWeight: 700, color: "#17181c", opacity: 0.6 }}>cuánto cuesta cartagena</div>
       </div>
     ),
     { ...size },

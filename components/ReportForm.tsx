@@ -210,8 +210,8 @@ export default function ReportForm({
         </Link>
         {confirmedDisplay.totalReportCount >= 5 && (
           <ShareLink
-            originLabel={t.origin}
-            destinationLabel={t.destination}
+            originLabel={originLabel}
+            destinationLabel={destinationLabel}
             rangeLabel={formatRange(confirmedDisplay.min, confirmedDisplay.max)}
             shareLabel={t.share}
           />
@@ -280,8 +280,8 @@ export default function ReportForm({
         </button>
         {initialDisplay.kind === "value" && (
           <ShareLink
-            originLabel={t.origin}
-            destinationLabel={t.destination}
+            originLabel={originLabel}
+            destinationLabel={destinationLabel}
             rangeLabel={formatRange(initialDisplay.min, initialDisplay.max)}
             shareLabel={t.share}
           />
