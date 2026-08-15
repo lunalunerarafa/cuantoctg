@@ -46,6 +46,12 @@ type Dict = {
   mostPay: string;
   reportAnother: string;
   submitError: string;
+  officialTariffLabel: string;
+  sameZoneMessage: string;
+  nightSurchargeBadge: string;
+  officialTariffPill: string;
+  municipalityLine: string;
+  decreeCitation: string;
 };
 
 export const WORDMARK = "cuánto cuesta cartagena";
@@ -99,6 +105,12 @@ export const COPY: Record<Locale, Dict> = {
     mostPay: "La mayoría paga",
     reportAnother: "Reportar otra carrera",
     submitError: "No pudimos enviar tu reporte. Intenta de nuevo.",
+    officialTariffLabel: "tarifa oficial",
+    sameZoneMessage: "Getsemaní está dentro de la misma zona tarifaria que el Centro (Decreto 0051 de 2026) — se cobra la tarifa mínima.",
+    nightSurchargeBadge: "+ $1.100 recargo nocturno activo (7pm–5am)",
+    officialTariffPill: "Tarifa oficial vigente",
+    municipalityLine: "Alcaldía de Cartagena de Indias",
+    decreeCitation: "Decreto 0051 de 2026 · 20 de febrero de 2026",
   },
   en: {
     intro: "What taxi rides actually cost in Cartagena, reported by the people who paid them.",
@@ -148,6 +160,12 @@ export const COPY: Record<Locale, Dict> = {
     mostPay: "Most people pay",
     reportAnother: "Report another ride",
     submitError: "We couldn't submit your report. Please try again.",
+    officialTariffLabel: "official tariff",
+    sameZoneMessage: "Getsemaní is within the same fare zone as Downtown (Decree 0051 of 2026) — the minimum fare applies.",
+    nightSurchargeBadge: "+ $1,100 night surcharge active (7pm–5am)",
+    officialTariffPill: "Current official tariff",
+    municipalityLine: "City of Cartagena de Indias",
+    decreeCitation: "Decree 0051 of 2026 · February 20, 2026",
   },
   fr: {
     intro: "Ce que coûtent vraiment les courses de taxi à Carthagène, rapporté par ceux qui les ont payées.",
@@ -197,6 +215,12 @@ export const COPY: Record<Locale, Dict> = {
     mostPay: "La majorité paie",
     reportAnother: "Signaler un autre trajet",
     submitError: "Nous n'avons pas pu envoyer votre signalement. Réessayez.",
+    officialTariffLabel: "tarif officiel",
+    sameZoneMessage: "Getsemaní se trouve dans la même zone tarifaire que le Centre (Décret 0051 de 2026) — le tarif minimum s'applique.",
+    nightSurchargeBadge: "+ 1 100 $ supplément de nuit actif (19h–5h)",
+    officialTariffPill: "Tarif officiel en vigueur",
+    municipalityLine: "Mairie de Carthagène des Indes",
+    decreeCitation: "Décret 0051 de 2026 · 20 février 2026",
   },
 };
 

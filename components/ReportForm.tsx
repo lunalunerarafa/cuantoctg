@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { confidenceCaption, confirmedDateLabel, COPY, reportWord, WORDMARK } from "@/lib/copy";
 import { formatAmount, formatRange } from "@/lib/range";
+import { getOfficialTariff, isSameZone, NIGHT_SURCHARGE } from "@/lib/routes";
 import type { DisplayRange, Locale, PlaceId } from "@/lib/routes";
 
 type UiState = "closed" | "open" | "submitting" | "confirmed";
@@ -48,6 +49,27 @@ function ShareLink({ originLabel, destinationLabel, rangeLabel, shareLabel }: { 
   );
 }
 
+function cartagenaHourSnapshot(): number {
+  return Number(
+    new Intl.DateTimeFormat("en-US", { timeZone: "America/Bogota", hourCycle: "h23", hour: "numeric" }).format(new Date()),
+  );
+}
+
+function isNightSurchargeActiveSnapshot(): boolean {
+  const hour = cartagenaHourSnapshot();
+  return hour >= NIGHT_SURCHARGE.startHour || hour < NIGHT_SURCHARGE.endHour;
+}
+
+// Cartagena's own clock (America/Bogota, no DST) — not the viewer's. A
+// tourist checking the site from abroad needs Cartagena's night-surcharge
+// window, not whatever timezone their own device is set to. Same
+// once-on-mount useSyncExternalStore pattern as ShareLink above.
+function NightSurchargeBadge({ label }: { label: string }) {
+  const active = useSyncExternalStore(subscribeToNothing, isNightSurchargeActiveSnapshot, () => false);
+  if (!active) return null;
+  return <div className="mx-auto w-fit rounded-full bg-ink px-[10px] py-[4px] text-[9.5px] font-semibold text-surface">{label}</div>;
+}
+
 export default function ReportForm({
   locale,
   originId,
@@ -66,13 +88,20 @@ export default function ReportForm({
   rangeLabel: string;
 }) {
   const t = COPY[locale];
+  const officialTariff = getOfficialTariff(originId, destinationId);
+  const sameZone = isSameZone(originId, destinationId);
 
   const fareCard = (
     <div className="mb-4 flex w-full flex-col gap-[7px] rounded-[8px] border border-ink p-[20px_16px] text-center">
       <div className="text-[9.5px] font-semibold opacity-50">
         {originLabel} → {destinationLabel}
       </div>
-      {initialDisplay.kind === "zero" ? (
+      {sameZone && officialTariff ? (
+        <>
+          <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{formatAmount(officialTariff.amount)}</div>
+          <div className="text-[10px] leading-[1.4] opacity-55">{t.sameZoneMessage}</div>
+        </>
+      ) : initialDisplay.kind === "zero" ? (
         <div className="text-[11px] leading-[1.4] opacity-60">
           {t.zeroState}
           <br />
@@ -81,8 +110,14 @@ export default function ReportForm({
       ) : (
         <>
           <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{rangeLabel}</div>
+          {officialTariff && <NightSurchargeBadge label={t.nightSurchargeBadge} />}
           <div className="text-[10px] opacity-55">{confidenceCaption(initialDisplay, locale)}</div>
           <div className="mt-[6px] text-[8.5px] font-bold tracking-[.02em] opacity-40">{WORDMARK}</div>
+          {officialTariff && (
+            <div className="text-[10px] font-semibold opacity-50">
+              {t.officialTariffLabel} {formatAmount(officialTariff.amount)} · {officialTariff.decree}
+            </div>
+          )}
         </>
       )}
     </div>

@@ -143,3 +143,47 @@ export function computeDisplayRange(seed: SeedStat | null, userReports: UserRepo
 export function getRouteDisplay(origin: PlaceId, destination: PlaceId, userReports: UserReport[] = []): DisplayRange {
   return computeDisplayRange(getSeedStat(origin, destination), userReports);
 }
+
+// Legally fixed fares from Decreto 0051 de 2026 (Alcaldía Distrital de
+// Cartagena de Indias), a second, authoritative reference point shown
+// alongside crowd-sourced ranges — never merged into them.
+export type OfficialTariff = { amount: number; decree: string; zoneNote?: string };
+
+const OFFICIAL_TARIFFS: Record<string, OfficialTariff> = {
+  "airport:centro": {
+    amount: 20200,
+    decree: "Decreto 0051 de 2026",
+    zoneNote: "Zona 1 · Centro – San Diego – La Matuna – Getsemaní",
+  },
+  "airport:getsemani": {
+    amount: 20200,
+    decree: "Decreto 0051 de 2026",
+    zoneNote: "Zona 1 · Centro – San Diego – La Matuna – Getsemaní",
+  },
+  "airport:bocagrande": { amount: 34400, decree: "Decreto 0051 de 2026" },
+  "airport:castillogrande": { amount: 34400, decree: "Decreto 0051 de 2026" },
+  "airport:manga": { amount: 28500, decree: "Decreto 0051 de 2026" },
+  "airport:manzanillo": { amount: 42000, decree: "Decreto 0051 de 2026" },
+  "centro:bocagrande": { amount: 12250, decree: "Decreto 0051 de 2026" },
+  "centro:castillogrande": { amount: 12250, decree: "Decreto 0051 de 2026" },
+  "centro:manga": { amount: 12250, decree: "Decreto 0051 de 2026" },
+  "centro:manzanillo": { amount: 54900, decree: "Decreto 0051 de 2026" },
+  // Same figure as Centro's other Zone-1 rows — the decree's stated tarifa mínima.
+  "centro:getsemani": { amount: 12250, decree: "Decreto 0051 de 2026" },
+};
+
+const SAME_ZONE_GROUPS: PlaceId[][] = [["centro", "getsemani"]];
+
+export const NIGHT_SURCHARGE = { amount: 1100, startHour: 19, endHour: 5 };
+
+function tariffKey(a: PlaceId, b: PlaceId): string {
+  return [a, b].sort().join(":");
+}
+
+export function getOfficialTariff(origin: PlaceId, destination: PlaceId): OfficialTariff | null {
+  return OFFICIAL_TARIFFS[tariffKey(origin, destination)] ?? null;
+}
+
+export function isSameZone(origin: PlaceId, destination: PlaceId): boolean {
+  return SAME_ZONE_GROUPS.some((group) => group.includes(origin) && group.includes(destination) && origin !== destination);
+}
