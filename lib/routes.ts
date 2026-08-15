@@ -14,7 +14,8 @@ export type PlaceId =
   | "castillogrande"
   | "crespo"
   | "zona-norte"
-  | "muelle-de-la-bodeguita";
+  | "muelle-de-la-bodeguita"
+  | "cielo-mar";
 
 // Pre-aggregated founder-verified numbers, committed as JSON for now.
 // Never raw per-report rows — those don't exist yet (see CLAUDE.md).
@@ -64,6 +65,7 @@ export const PLACE_IDS: PlaceId[] = [
   "crespo",
   "zona-norte",
   "muelle-de-la-bodeguita",
+  "cielo-mar",
 ];
 
 const LOCALIZED_LABELS: Record<"airport" | "centro" | "zona-norte" | "muelle-de-la-bodeguita", Record<Locale, string>> = {
@@ -81,6 +83,7 @@ const FIXED_LABELS: Record<Exclude<PlaceId, "airport" | "centro" | "zona-norte" 
   manzanillo: "Manzanillo del Mar",
   castillogrande: "Castillogrande",
   crespo: "Crespo",
+  "cielo-mar": "Cielo Mar",
 };
 
 export function placeLabel(id: PlaceId, locale: Locale): string {
@@ -209,6 +212,10 @@ const OFFICIAL_TARIFFS: Record<string, OfficialTariff> = {
   "airport:crespo": { amount: 20200, decree: "Decreto 0051 de 2026" },
   "airport:muelle-de-la-bodeguita": { amount: 24300, decree: "Decreto 0051 de 2026" },
   // No centro:muelle-de-la-bodeguita entry — that pair isn't in the decree.
+  "airport:cielo-mar": { amount: 24300, decree: "Decreto 0051 de 2026" },
+  // Cielo Mar also appears in the Centro table (Zona 4), unlike Muelle de la
+  // Bodeguita above — both entries are real, not just the Aeropuerto one.
+  "centro:cielo-mar": { amount: 16900, decree: "Decreto 0051 de 2026" },
   "centro:zona-norte": {
     min: 50800,
     max: 54900,
