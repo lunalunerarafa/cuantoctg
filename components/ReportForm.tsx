@@ -60,8 +60,8 @@ export default function ReportForm({
   initialDisplay: DisplayRange;
 }) {
   const t = COPY[locale];
-  const [uiState, setUiState] = useState<UiState>("closed");
-  const [formOpenedAt, setFormOpenedAt] = useState<number | null>(null);
+  const [uiState, setUiState] = useState<UiState>("open");
+  const [formOpenedAt, setFormOpenedAt] = useState<number | null>(() => Date.now());
   const [amountDigits, setAmountDigits] = useState("");
   const [honeypot, setHoneypot] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -142,45 +142,55 @@ export default function ReportForm({
 
   if (uiState === "open" || uiState === "submitting") {
     return (
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          submit();
-        }}
-        className="flex w-full flex-col gap-2 rounded-[6px] border border-ink p-[14px]"
-      >
-        {errorMsg && <div className="text-[10.5px] text-black/60">{errorMsg}</div>}
-        <div className="text-[10.5px] font-semibold">{t.howMuchPaid}</div>
-        <div className="flex gap-2">
-          <input
-            value={amountDigits ? formatAmount(Number(amountDigits)) : ""}
-            onChange={(e) => setAmountDigits(e.target.value.replace(/\D/g, ""))}
-            placeholder="18.000"
-            inputMode="numeric"
-            className="fare-num flex-1 rounded-[3px] border border-ink px-[9px] py-[9px] text-[13px] outline-none"
+      <>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            submit();
+          }}
+          className="flex w-full flex-col gap-2 rounded-[6px] border border-ink p-[14px]"
+        >
+          {errorMsg && <div className="text-[10.5px] text-black/60">{errorMsg}</div>}
+          <div className="text-[10.5px] font-semibold">{t.howMuchPaid}</div>
+          <div className="flex gap-2">
+            <input
+              value={amountDigits ? formatAmount(Number(amountDigits)) : ""}
+              onChange={(e) => setAmountDigits(e.target.value.replace(/\D/g, ""))}
+              placeholder="18.000"
+              inputMode="numeric"
+              className="fare-num flex-1 rounded-[3px] border border-ink px-[9px] py-[9px] text-[13px] outline-none"
+            />
+            {/* Honeypot: visually hidden, real input (not type="hidden" — some
+                simple bots skip those), neutral name so autofill can't
+                silently populate it and false-positive-reject a real user. */}
+            <input
+              type="text"
+              name="notes"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute left-[-9999px] opacity-0"
+            />
+            <button
+              type="submit"
+              disabled={uiState === "submitting"}
+              className={`flex items-center rounded-[3px] bg-ink px-[14px] py-[9px] text-[11px] font-semibold text-surface ${amountDigits ? "" : "opacity-35"}`}
+            >
+              {t.send}
+            </button>
+          </div>
+        </form>
+        {initialDisplay.kind === "value" && (
+          <ShareLink
+            originLabel={t.origin}
+            destinationLabel={t.destination}
+            rangeLabel={formatRange(initialDisplay.min, initialDisplay.max)}
+            shareLabel={t.share}
           />
-          {/* Honeypot: visually hidden, real input (not type="hidden" — some
-              simple bots skip those), neutral name so autofill can't
-              silently populate it and false-positive-reject a real user. */}
-          <input
-            type="text"
-            name="notes"
-            value={honeypot}
-            onChange={(e) => setHoneypot(e.target.value)}
-            tabIndex={-1}
-            autoComplete="off"
-            aria-hidden="true"
-            className="absolute left-[-9999px] opacity-0"
-          />
-          <button
-            type="submit"
-            disabled={uiState === "submitting"}
-            className={`flex items-center rounded-[3px] bg-ink px-[14px] py-[9px] text-[11px] font-semibold text-surface ${amountDigits ? "" : "opacity-35"}`}
-          >
-            {t.send}
-          </button>
-        </div>
-      </form>
+        )}
+      </>
     );
   }
 
