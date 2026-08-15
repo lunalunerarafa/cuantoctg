@@ -72,7 +72,8 @@ export async function POST(req: NextRequest) {
     const timingOk = typeof formOpenedAt === "number" && Number.isFinite(formOpenedAt) && Date.now() - formOpenedAt >= MIN_FORM_MS;
     const amountOk = Number.isFinite(amountCop) && amountCop >= MIN_AMOUNT_COP && amountCop <= MAX_AMOUNT_COP;
 
-    const ipHash = hashIp(getClientIp(req));
+    const clientIp = getClientIp(req);
+    const ipHash = hashIp(clientIp);
 
     const [hourlyCount, routeDailyCount] = await Promise.all([
       countRecentSubmissions(ipHash, HOUR_MS),
@@ -106,7 +107,16 @@ export async function POST(req: NextRequest) {
       // TEMPORARY debug logging — remove once the failing check is identified.
       // The client still only shows t.submitError; this is for Vercel's
       // function logs / a direct look at the response body.
-      console.error("report rejected", { rejectReason, origin, destination });
+      console.error("report rejected", {
+        rejectReason,
+        origin,
+        destination,
+        clientIp,
+        ipHash: ipHash.slice(0, 12),
+        hourlyCount,
+        routeDailyCount,
+        xForwardedFor: req.headers.get("x-forwarded-for"),
+      });
       return NextResponse.json({ error: rejectReason }, { status: 400 });
     }
 
