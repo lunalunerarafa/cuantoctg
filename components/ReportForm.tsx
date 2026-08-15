@@ -188,7 +188,6 @@ export default function ReportForm({
               onChange={(e) => setAmountDigits(e.target.value.replace(/\D/g, ""))}
               placeholder="18.000"
               inputMode="numeric"
-              pattern="[0-9]*"
               autoFocus
               className="fare-num flex-1 rounded-[3px] border border-ink px-[9px] py-[9px] text-[13px] outline-none"
             />
