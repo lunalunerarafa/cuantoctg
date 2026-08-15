@@ -28,7 +28,7 @@ export default async function HomePage({
   const origin: PlaceId = PLACE_IDS.includes(originParam as PlaceId) ? (originParam as PlaceId) : "airport";
 
   return (
-    <div className="flex min-h-screen flex-col md:min-h-0">
+    <div className="flex min-h-dvh flex-col md:min-h-0">
       <header className="flex items-center justify-between border-b border-ink px-[18px] py-[14px] md:px-[28px] md:py-[18px]">
         <div className="text-[15px] font-bold leading-none tracking-[-0.01em]">
           cuánto cuesta

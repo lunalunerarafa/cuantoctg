@@ -67,7 +67,7 @@ export default async function RoutePage({
   const rangeLabel = display.kind === "value" ? formatRange(display.min, display.max) : "—";
 
   return (
-    <div className="flex min-h-screen flex-col md:min-h-0">
+    <div className="flex min-h-dvh flex-col md:min-h-0">
       <header className="flex items-center justify-between border-b border-ink px-[18px] py-[14px] md:px-[28px] md:py-[18px]">
         <Link href={`/${locale}`} className="text-[15px] leading-none font-bold tracking-[-0.01em]">
           cuánto cuesta

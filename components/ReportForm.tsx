@@ -157,12 +157,14 @@ export default function ReportForm({
         >
           {t.reportAnother}
         </Link>
-        <ShareLink
-          originLabel={t.origin}
-          destinationLabel={t.destination}
-          rangeLabel={formatRange(confirmedDisplay.min, confirmedDisplay.max)}
-          shareLabel={t.share}
-        />
+        {confirmedDisplay.totalReportCount >= 5 && (
+          <ShareLink
+            originLabel={t.origin}
+            destinationLabel={t.destination}
+            rangeLabel={formatRange(confirmedDisplay.min, confirmedDisplay.max)}
+            shareLabel={t.share}
+          />
+        )}
       </div>
     );
   }
@@ -210,14 +212,6 @@ export default function ReportForm({
             </button>
           </div>
         </form>
-        {initialDisplay.kind === "value" && (
-          <ShareLink
-            originLabel={t.origin}
-            destinationLabel={t.destination}
-            rangeLabel={formatRange(initialDisplay.min, initialDisplay.max)}
-            shareLabel={t.share}
-          />
-        )}
       </>
     );
   }
