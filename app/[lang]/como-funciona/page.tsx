@@ -51,8 +51,8 @@ export default async function MethodologyPage({ params }: { params: Promise<{ la
   return (
     <div className="flex min-h-dvh flex-col md:min-h-0">
       <header className="flex items-center gap-[10px] border-b border-ink px-[18px] py-[14px]">
-        <Link href={`/${locale}`} className="text-[16px]" aria-label={t.howItWorks}>
-          ←
+        <Link href={`/${locale}`} className="flex items-center gap-[4px] text-[13px] font-semibold">
+          <span style={{ fontSize: "16px" }}>←</span> {t.backHome}
         </Link>
         <div className="flex-1 text-[12px] font-semibold">{t.methodTitle}</div>
         <LangSwitch locale={locale} segments={["como-funciona"]} />

@@ -56,6 +56,7 @@ type Dict = {
   decreeCitation: string;
   officialTariffCaption: string;
   officialOnlyNote: string;
+  backHome: string;
 };
 
 export const WORDMARK = "cuánto cuesta cartagena";
@@ -121,6 +122,7 @@ export const COPY: Record<Locale, Dict> = {
     officialTariffCaption: "Tarifa oficial",
     officialOnlyNote:
       "Esta es la tarifa fijada por decreto. Aún no hay reportes de viajeros — lo que se paga en la calle puede variar según el tráfico, la hora y la negociación con el conductor.",
+    backHome: "Inicio",
   },
   en: {
     intro: "What taxi rides actually cost in Cartagena, reported by the people who paid them.",
@@ -182,6 +184,7 @@ export const COPY: Record<Locale, Dict> = {
     officialTariffCaption: "Official tariff",
     officialOnlyNote:
       "This is the government-set fare. No rider reports yet — what people actually pay on the street can vary with traffic, time of day, and negotiation with the driver.",
+    backHome: "Home",
   },
   fr: {
     intro: "Ce que coûtent vraiment les courses de taxi à Carthagène, rapporté par ceux qui les ont payées.",
@@ -243,6 +246,7 @@ export const COPY: Record<Locale, Dict> = {
     officialTariffCaption: "Tarif officiel",
     officialOnlyNote:
       "C'est le tarif fixé par décret. Pas encore de signalements de voyageurs — ce qui est réellement payé peut varier selon le trafic, l'heure et la négociation avec le chauffeur.",
+    backHome: "Accueil",
   },
 };
 
