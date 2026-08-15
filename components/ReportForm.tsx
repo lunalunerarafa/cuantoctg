@@ -183,9 +183,13 @@ export default function ReportForm({
         <div className="flex w-full flex-col gap-[6px] rounded-[8px] border border-ink p-[20px_16px] text-center">
           <div className="text-[10px] opacity-50">{t.youPaid}</div>
           <div className="fare-num text-[32px] font-extrabold">{formatAmount(paidAmount)}</div>
-          <div className="text-[10.5px] opacity-60">
-            {t.mostPay} {formatRange(confirmedDisplay.min, confirmedDisplay.max)}
-          </div>
+          {confirmedDisplay.totalReportCount >= 5 ? (
+            <div className="text-[10.5px] opacity-60">
+              {t.mostPay} {formatRange(confirmedDisplay.min, confirmedDisplay.max)}
+            </div>
+          ) : (
+            <div className="text-[10.5px] opacity-60">{t.notEnoughDataYet}</div>
+          )}
           <div className="relative flex items-center justify-center gap-[5px] text-[10px] opacity-55">
             <span className="fare-num cc-pulse font-bold">{confirmedDisplay.totalReportCount}</span>
             <span>
