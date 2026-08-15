@@ -102,7 +102,13 @@ export async function POST(req: NextRequest) {
       rejectReason,
     });
 
-    if (!accepted) return neutralError();
+    if (!accepted) {
+      // TEMPORARY debug logging — remove once the failing check is identified.
+      // The client still only shows t.submitError; this is for Vercel's
+      // function logs / a direct look at the response body.
+      console.error("report rejected", { rejectReason, origin, destination });
+      return NextResponse.json({ error: rejectReason }, { status: 400 });
+    }
 
     for (const locale of LOCALES) {
       revalidatePath(`/${locale}/${origin}/${destination}`);
