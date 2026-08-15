@@ -101,6 +101,14 @@ export default function ReportForm({
           <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{formatAmount(officialTariff.amount)}</div>
           <div className="text-[10px] leading-[1.4] opacity-55">{t.sameZoneMessage}</div>
         </>
+      ) : initialDisplay.kind === "zero" && officialTariff ? (
+        <>
+          <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{formatAmount(officialTariff.amount)}</div>
+          <div className="text-[10px] font-semibold" style={{ color: "#8a6300" }}>
+            {t.officialTariffCaption} · {officialTariff.decree}
+          </div>
+          <div className="mt-1 text-[10.5px] leading-[1.4] opacity-60">{t.officialOnlyNote}</div>
+        </>
       ) : initialDisplay.kind === "zero" ? (
         <div className="text-[11px] leading-[1.4] opacity-60">
           {t.zeroState}

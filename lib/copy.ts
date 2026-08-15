@@ -52,6 +52,8 @@ type Dict = {
   officialTariffPill: string;
   municipalityLine: string;
   decreeCitation: string;
+  officialTariffCaption: string;
+  officialOnlyNote: string;
 };
 
 export const WORDMARK = "cuánto cuesta cartagena";
@@ -111,6 +113,9 @@ export const COPY: Record<Locale, Dict> = {
     officialTariffPill: "Tarifa oficial vigente",
     municipalityLine: "Alcaldía de Cartagena de Indias",
     decreeCitation: "Decreto 0051 de 2026 · 20 de febrero de 2026",
+    officialTariffCaption: "Tarifa oficial",
+    officialOnlyNote:
+      "Esta es la tarifa fijada por decreto. Aún no hay reportes de viajeros — lo que se paga en la calle puede variar según el tráfico, la hora y la negociación con el conductor.",
   },
   en: {
     intro: "What taxi rides actually cost in Cartagena, reported by the people who paid them.",
@@ -166,6 +171,9 @@ export const COPY: Record<Locale, Dict> = {
     officialTariffPill: "Current official tariff",
     municipalityLine: "City of Cartagena de Indias",
     decreeCitation: "Decree 0051 of 2026 · February 20, 2026",
+    officialTariffCaption: "Official tariff",
+    officialOnlyNote:
+      "This is the government-set fare. No rider reports yet — what people actually pay on the street can vary with traffic, time of day, and negotiation with the driver.",
   },
   fr: {
     intro: "Ce que coûtent vraiment les courses de taxi à Carthagène, rapporté par ceux qui les ont payées.",
@@ -221,6 +229,9 @@ export const COPY: Record<Locale, Dict> = {
     officialTariffPill: "Tarif officiel en vigueur",
     municipalityLine: "Mairie de Carthagène des Indes",
     decreeCitation: "Décret 0051 de 2026 · 20 février 2026",
+    officialTariffCaption: "Tarif officiel",
+    officialOnlyNote:
+      "C'est le tarif fixé par décret. Pas encore de signalements de voyageurs — ce qui est réellement payé peut varier selon le trafic, l'heure et la négociation avec le chauffeur.",
   },
 };
 
