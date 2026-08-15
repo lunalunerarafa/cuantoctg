@@ -74,7 +74,7 @@ const FIXED_LABELS: Record<Exclude<PlaceId, "airport" | "centro">, string> = {
   getsemani: "Getsemaní",
   bocagrande: "Bocagrande",
   manga: "Manga",
-  manzanillo: "Manzanillo",
+  manzanillo: "Manzanillo del Mar",
   castillogrande: "Castillogrande",
   bazurto: "Bazurto",
   serenadelmar: "Serena del Mar",
