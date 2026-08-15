@@ -4,16 +4,7 @@ import { trimOutliers } from "./range";
 export type Locale = "es" | "en" | "fr";
 export const LOCALES: Locale[] = ["es", "en", "fr"];
 
-export type PlaceId =
-  | "airport"
-  | "centro"
-  | "getsemani"
-  | "bocagrande"
-  | "manga"
-  | "manzanillo"
-  | "castillogrande"
-  | "bazurto"
-  | "serenadelmar";
+export type PlaceId = "airport" | "centro" | "getsemani" | "bocagrande" | "manga" | "manzanillo" | "castillogrande";
 
 // Pre-aggregated founder-verified numbers, committed as JSON for now.
 // Never raw per-report rows — those don't exist yet (see CLAUDE.md).
@@ -52,17 +43,7 @@ export type DisplayRange =
       totalReportCount: number;
     };
 
-export const PLACE_IDS: PlaceId[] = [
-  "airport",
-  "centro",
-  "getsemani",
-  "bocagrande",
-  "manga",
-  "manzanillo",
-  "castillogrande",
-  "bazurto",
-  "serenadelmar",
-];
+export const PLACE_IDS: PlaceId[] = ["airport", "centro", "getsemani", "bocagrande", "manga", "manzanillo", "castillogrande"];
 
 const LOCALIZED_LABELS: Record<"airport" | "centro", Record<Locale, string>> = {
   airport: { es: "Aeropuerto", en: "Airport", fr: "Aéroport" },
@@ -76,8 +57,6 @@ const FIXED_LABELS: Record<Exclude<PlaceId, "airport" | "centro">, string> = {
   manga: "Manga",
   manzanillo: "Manzanillo del Mar",
   castillogrande: "Castillogrande",
-  bazurto: "Bazurto",
-  serenadelmar: "Serena del Mar",
 };
 
 export function placeLabel(id: PlaceId, locale: Locale): string {
