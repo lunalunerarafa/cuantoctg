@@ -2,9 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import LangSwitch from "@/components/LangSwitch";
 import { COPY } from "@/lib/copy";
-import { isValidRoute, PLACE_IDS, placeLabel } from "@/lib/routes";
-import { LOCALES } from "@/lib/types";
-import type { Locale, PlaceId } from "@/lib/types";
+import { isValidRoute, LOCALES, PLACE_IDS, placeLabel } from "@/lib/routes";
+import type { Locale, PlaceId } from "@/lib/routes";
 
 export const dynamicParams = false;
 

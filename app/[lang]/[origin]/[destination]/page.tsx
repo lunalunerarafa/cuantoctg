@@ -5,10 +5,9 @@ import LangSwitch from "@/components/LangSwitch";
 import ReportForm from "@/components/ReportForm";
 import { COPY, routeDescription, routeTitle } from "@/lib/copy";
 import { formatRange } from "@/lib/range";
-import { computeDisplayRange, getSeedStat, isValidRoute, placeLabel, VALID_ROUTES } from "@/lib/routes";
+import { computeDisplayRange, getSeedStat, isValidRoute, LOCALES, placeLabel, VALID_ROUTES } from "@/lib/routes";
 import { getUserReports } from "@/lib/supabase";
-import { LOCALES } from "@/lib/types";
-import type { Locale, PlaceId } from "@/lib/types";
+import type { Locale, PlaceId } from "@/lib/routes";
 
 export const dynamicParams = false;
 

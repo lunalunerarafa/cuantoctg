@@ -3,8 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import LangSwitch from "@/components/LangSwitch";
 import { COPY, methodologyDescription, methodologyTitle } from "@/lib/copy";
-import { LOCALES } from "@/lib/types";
-import type { Locale } from "@/lib/types";
+import { LOCALES } from "@/lib/routes";
+import type { Locale } from "@/lib/routes";
 
 export const dynamicParams = false;
 

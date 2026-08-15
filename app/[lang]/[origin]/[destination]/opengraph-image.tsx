@@ -2,10 +2,9 @@ import { ImageResponse } from "next/og";
 import { notFound } from "next/navigation";
 import { COPY } from "@/lib/copy";
 import { formatRange } from "@/lib/range";
-import { computeDisplayRange, getSeedStat, isValidRoute, placeLabel } from "@/lib/routes";
+import { computeDisplayRange, getSeedStat, isValidRoute, LOCALES, placeLabel } from "@/lib/routes";
 import { getUserReports } from "@/lib/supabase";
-import { LOCALES } from "@/lib/types";
-import type { Locale, PlaceId } from "@/lib/types";
+import type { Locale, PlaceId } from "@/lib/routes";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";

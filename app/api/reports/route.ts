@@ -1,9 +1,8 @@
 import crypto from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
-import { computeDisplayRange, getSeedStat, isValidRoute } from "@/lib/routes";
+import { computeDisplayRange, getSeedStat, isValidRoute, LOCALES, type PlaceId } from "@/lib/routes";
 import { countRecentSubmissions, getUserReports, insertReport } from "@/lib/supabase";
-import { LOCALES, type PlaceId } from "@/lib/types";
 
 const MIN_AMOUNT_COP = 3000;
 const MAX_AMOUNT_COP = 300000;

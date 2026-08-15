@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { cache } from "react";
-import type { PlaceId, UserReport } from "./types";
+import type { PlaceId, UserReport } from "./routes";
 
 // Lazy singleton: constructing the client eagerly at module load would
 // throw immediately (and break the whole build) whenever credentials are

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { confidenceCaption, confirmedDateLabel, COPY, reportWord, WORDMARK } from "@/lib/copy";
 import { formatAmount, formatRange } from "@/lib/range";
-import type { DisplayRange, Locale, PlaceId } from "@/lib/types";
+import type { DisplayRange, Locale, PlaceId } from "@/lib/routes";
 
 type UiState = "closed" | "open" | "submitting" | "confirmed";
 

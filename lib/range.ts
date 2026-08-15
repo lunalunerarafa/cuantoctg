@@ -1,4 +1,4 @@
-import type { Locale } from "./types";
+import type { Locale } from "./routes";
 
 // Tukey fences: drop amounts outside 1.5x the interquartile range. Applied
 // only to raw report rows — pre-aggregated seed stats are used as-is.

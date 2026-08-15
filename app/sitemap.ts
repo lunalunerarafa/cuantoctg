@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-import { VALID_ROUTES } from "@/lib/routes";
-import { LOCALES } from "@/lib/types";
+import { LOCALES, VALID_ROUTES } from "@/lib/routes";
 
 const BASE = "https://cuantocuestacartagena.com";
 

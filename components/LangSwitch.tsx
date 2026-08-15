@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Locale } from "@/lib/types";
+import type { Locale } from "@/lib/routes";
 
 const LOCALES: Locale[] = ["es", "en", "fr"];
 

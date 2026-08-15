@@ -1,6 +1,6 @@
 import { formatRange, relativeTime } from "./range";
 import { placeLabel } from "./routes";
-import type { DisplayRange, Locale, PlaceId } from "./types";
+import type { DisplayRange, Locale, PlaceId } from "./routes";
 
 // Verbatim copy from the design handoff — do not paraphrase or shorten.
 type Dict = {
