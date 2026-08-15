@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { confidenceCaption, confirmedDateLabel, COPY, reportWord, WORDMARK } from "@/lib/copy";
 import { formatAmount, formatRange } from "@/lib/range";
-import { getOfficialTariff, isSameZone, NIGHT_SURCHARGE } from "@/lib/routes";
+import { getOfficialTariff, isSameZone, NIGHT_SURCHARGE, officialTariffAmountLabel } from "@/lib/routes";
 import type { DisplayRange, Locale, PlaceId } from "@/lib/routes";
 
 type UiState = "closed" | "open" | "submitting" | "confirmed";
@@ -98,16 +98,17 @@ export default function ReportForm({
       </div>
       {sameZone && officialTariff ? (
         <>
-          <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{formatAmount(officialTariff.amount)}</div>
+          <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{officialTariffAmountLabel(officialTariff)}</div>
           <div className="text-[10px] leading-[1.4] opacity-55">{t.sameZoneMessage}</div>
         </>
       ) : initialDisplay.kind === "zero" && officialTariff ? (
         <>
-          <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{formatAmount(officialTariff.amount)}</div>
+          <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{officialTariffAmountLabel(officialTariff)}</div>
           <div className="text-[10px] font-semibold" style={{ color: "#8a6300" }}>
             {t.officialTariffCaption} · {officialTariff.decree}
           </div>
           <div className="mt-1 text-[10.5px] leading-[1.4] opacity-60">{t.officialOnlyNote}</div>
+          {officialTariff.zoneNote && <div className="mt-1 text-[9.5px] leading-[1.4] opacity-50">{officialTariff.zoneNote}</div>}
         </>
       ) : initialDisplay.kind === "zero" ? (
         <div className="text-[11px] leading-[1.4] opacity-60">
@@ -122,9 +123,12 @@ export default function ReportForm({
           <div className="text-[10px] opacity-55">{confidenceCaption(initialDisplay, locale)}</div>
           <div className="mt-[6px] text-[8.5px] font-bold tracking-[.02em] opacity-40">{WORDMARK}</div>
           {officialTariff && (
-            <div className="text-[10px] font-semibold opacity-50">
-              {t.officialTariffLabel} {formatAmount(officialTariff.amount)} · {officialTariff.decree}
-            </div>
+            <>
+              <div className="text-[10px] font-semibold opacity-50">
+                {t.officialTariffLabel} {officialTariffAmountLabel(officialTariff)} · {officialTariff.decree}
+              </div>
+              {officialTariff.zoneNote && <div className="text-[9.5px] leading-[1.4] opacity-50">{officialTariff.zoneNote}</div>}
+            </>
           )}
         </>
       )}

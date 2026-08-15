@@ -1,5 +1,5 @@
 import { COPY, WORDMARK } from "@/lib/copy";
-import { formatAmount } from "@/lib/range";
+import { officialTariffAmountLabel } from "@/lib/routes";
 import type { OfficialTariff } from "@/lib/routes";
 import type { Locale } from "@/lib/routes";
 
@@ -28,7 +28,7 @@ export default function OfficialTariffCard({
       <div className="text-[9.5px] font-semibold opacity-50">
         {originLabel} → {destinationLabel}
       </div>
-      <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{formatAmount(tariff.amount)}</div>
+      <div className="fare-num text-[36px] font-extrabold text-ink md:text-[48px]">{officialTariffAmountLabel(tariff)}</div>
       <div className="text-[10px] font-semibold opacity-70">{t.municipalityLine}</div>
       <div className="text-[10px] opacity-55">{t.decreeCitation}</div>
       {tariff.zoneNote && <div className="text-[9.5px] opacity-50">{tariff.zoneNote}</div>}

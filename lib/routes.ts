@@ -1,10 +1,20 @@
 import seedData from "@/data/seed-routes.json";
-import { trimOutliers } from "./range";
+import { formatAmount, formatRange, trimOutliers } from "./range";
 
 export type Locale = "es" | "en" | "fr";
 export const LOCALES: Locale[] = ["es", "en", "fr"];
 
-export type PlaceId = "airport" | "centro" | "getsemani" | "bocagrande" | "manga" | "manzanillo" | "castillogrande";
+export type PlaceId =
+  | "airport"
+  | "centro"
+  | "getsemani"
+  | "bocagrande"
+  | "manga"
+  | "manzanillo"
+  | "castillogrande"
+  | "crespo"
+  | "zona-norte"
+  | "muelle-de-la-bodeguita";
 
 // Pre-aggregated founder-verified numbers, committed as JSON for now.
 // Never raw per-report rows — those don't exist yet (see CLAUDE.md).
@@ -43,24 +53,38 @@ export type DisplayRange =
       totalReportCount: number;
     };
 
-export const PLACE_IDS: PlaceId[] = ["airport", "centro", "getsemani", "bocagrande", "manga", "manzanillo", "castillogrande"];
+export const PLACE_IDS: PlaceId[] = [
+  "airport",
+  "centro",
+  "getsemani",
+  "bocagrande",
+  "manga",
+  "manzanillo",
+  "castillogrande",
+  "crespo",
+  "zona-norte",
+  "muelle-de-la-bodeguita",
+];
 
-const LOCALIZED_LABELS: Record<"airport" | "centro", Record<Locale, string>> = {
+const LOCALIZED_LABELS: Record<"airport" | "centro" | "zona-norte" | "muelle-de-la-bodeguita", Record<Locale, string>> = {
   airport: { es: "Aeropuerto", en: "Airport", fr: "Aéroport" },
   centro: { es: "Centro", en: "Downtown", fr: "Centre" },
+  "zona-norte": { es: "Zona Norte", en: "North Zone", fr: "Zone Nord" },
+  "muelle-de-la-bodeguita": { es: "Muelle de la Bodeguita", en: "Bodeguita Pier", fr: "Quai de la Bodeguita" },
 };
 
-// The other 7 places use one label across all three languages (per the design doc).
-const FIXED_LABELS: Record<Exclude<PlaceId, "airport" | "centro">, string> = {
+// The rest use one label across all three languages (per the design doc).
+const FIXED_LABELS: Record<Exclude<PlaceId, "airport" | "centro" | "zona-norte" | "muelle-de-la-bodeguita">, string> = {
   getsemani: "Getsemaní",
   bocagrande: "Bocagrande",
   manga: "Manga",
   manzanillo: "Manzanillo del Mar",
   castillogrande: "Castillogrande",
+  crespo: "Crespo",
 };
 
 export function placeLabel(id: PlaceId, locale: Locale): string {
-  if (id === "airport" || id === "centro") return LOCALIZED_LABELS[id][locale];
+  if (id === "airport" || id === "centro" || id === "zona-norte" || id === "muelle-de-la-bodeguita") return LOCALIZED_LABELS[id][locale];
   return FIXED_LABELS[id];
 }
 
@@ -147,7 +171,15 @@ export function getRouteDisplay(origin: PlaceId, destination: PlaceId, userRepor
 // Legally fixed fares from Decreto 0051 de 2026 (Alcaldía Distrital de
 // Cartagena de Indias), a second, authoritative reference point shown
 // alongside crowd-sourced ranges — never merged into them.
-export type OfficialTariff = { amount: number; decree: string; zoneNote?: string };
+// A tariff is either a single fixed amount, or a min/max range for zones
+// wide enough that the decree itself lists a spread of destination-specific
+// figures (e.g. Zona Norte) rather than one flat rate.
+export type OfficialTariff = { amount?: number; min?: number; max?: number; decree: string; zoneNote?: string };
+
+export function officialTariffAmountLabel(tariff: OfficialTariff): string {
+  if (tariff.min != null && tariff.max != null) return formatRange(tariff.min, tariff.max);
+  return formatAmount(tariff.amount!);
+}
 
 const OFFICIAL_TARIFFS: Record<string, OfficialTariff> = {
   "airport:centro": {
@@ -173,6 +205,24 @@ const OFFICIAL_TARIFFS: Record<string, OfficialTariff> = {
   // A direct fare from the decree's own "Bocagrande directo y viceversa" table —
   // not derived from the Centro/Aeropuerto zone system.
   "bocagrande:manga": { amount: 18300, decree: "Decreto 0051 de 2026" },
+  "centro:crespo": { amount: 12250, decree: "Decreto 0051 de 2026" },
+  "airport:crespo": { amount: 20200, decree: "Decreto 0051 de 2026" },
+  "airport:muelle-de-la-bodeguita": { amount: 24300, decree: "Decreto 0051 de 2026" },
+  // No centro:muelle-de-la-bodeguita entry — that pair isn't in the decree.
+  "centro:zona-norte": {
+    min: 50800,
+    max: 54900,
+    decree: "Decreto 0051 de 2026",
+    zoneNote:
+      "Incluye C.R. Barceloneta, Conjunto Residencial Barcelona, Colegio George Washington y Universidad Tadeo Lozano — la tarifa varía según el punto exacto.",
+  },
+  "airport:zona-norte": {
+    min: 42000,
+    max: 44000,
+    decree: "Decreto 0051 de 2026",
+    zoneNote:
+      "Incluye C.R. Barceloneta, Conjunto Residencial Barcelona, Colegio George Washington y Universidad Tadeo Lozano — la tarifa varía según el punto exacto.",
+  },
 };
 
 const SAME_ZONE_GROUPS: PlaceId[][] = [["centro", "getsemani"]];
