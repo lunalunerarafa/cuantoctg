@@ -170,6 +170,9 @@ const OFFICIAL_TARIFFS: Record<string, OfficialTariff> = {
   "centro:manzanillo": { amount: 54900, decree: "Decreto 0051 de 2026" },
   // Same figure as Centro's other Zone-1 rows — the decree's stated tarifa mínima.
   "centro:getsemani": { amount: 12250, decree: "Decreto 0051 de 2026" },
+  // A direct fare from the decree's own "Bocagrande directo y viceversa" table —
+  // not derived from the Centro/Aeropuerto zone system.
+  "bocagrande:manga": { amount: 18300, decree: "Decreto 0051 de 2026" },
 };
 
 const SAME_ZONE_GROUPS: PlaceId[][] = [["centro", "getsemani"]];
