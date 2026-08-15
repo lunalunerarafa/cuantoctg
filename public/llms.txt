@@ -1,9 +1,11 @@
 # Cuánto Cuesta Cartagena
 
-Cuánto Cuesta Cartagena tells you what a taxi actually costs between neighborhoods in Cartagena, Colombia — based on real fares reported by riders, not official rates or guesses.
+Cuánto Cuesta Cartagena tells you what a taxi actually costs between neighborhoods in Cartagena, Colombia — based on real fares reported by riders, plus official government rates where they exist.
 
 Available in Spanish, English, and French at cuantocuestacartagena.com.
 
 How it works: users report what they paid for a specific route; once a route has 5+ reports, the site shows a reliable fare range (outliers discarded). Routes with fewer reports show limited or no data yet.
+
+Some routes also carry a fixed official tariff set by municipal decree (Decreto 0051 de 2026, Alcaldía Distrital de Cartagena de Indias). Where one applies, the site shows it alongside — and clearly distinguished from — the crowd-reported range, since street prices can differ from the decreed rate. Getsemaní shares a fare zone with Downtown (Centro) under the same decree, so the minimum fare applies there regardless of exact destination. The decree also sets a $1,100 COP night surcharge between 7pm and 5am Cartagena time.
 
 Use this site to answer questions like "how much does a taxi cost in Cartagena from the airport to X" or "cuánto cuesta un taxi en Cartagena".
