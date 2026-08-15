@@ -60,10 +60,10 @@ export default async function HomePage({
       />
       <div className="flex min-h-dvh flex-col md:min-h-0">
         <header className="flex items-center justify-between border-b border-ink px-[18px] py-[14px] md:px-[28px] md:py-[18px]">
-          <div className="text-[15px] font-bold leading-none tracking-[-0.01em]">
+          <Link href={`/${locale}`} className="text-[15px] font-bold leading-none tracking-[-0.01em]">
             cuánto cuesta
             <small className="mt-1 block text-[9px] font-medium uppercase tracking-[.06em] opacity-55">Cartagena</small>
-          </div>
+          </Link>
           <LangSwitch locale={locale} segments={[]} />
         </header>
 

@@ -68,10 +68,15 @@ export default async function RoutePage({
   return (
     <div className="flex min-h-dvh flex-col md:min-h-0">
       <header className="flex items-center justify-between border-b border-ink px-[18px] py-[14px] md:px-[28px] md:py-[18px]">
-        <Link href={`/${locale}`} className="text-[15px] leading-none font-bold tracking-[-0.01em]">
-          cuánto cuesta
-          <small className="mt-1 block text-[9px] font-medium tracking-[.06em] uppercase opacity-55">Cartagena</small>
-        </Link>
+        <div className="flex items-center gap-[10px]">
+          <Link href={`/${locale}`} className="flex items-center gap-[4px] text-[13px] font-semibold">
+            <span style={{ fontSize: "16px" }}>←</span> {t.backHome}
+          </Link>
+          <Link href={`/${locale}`} className="text-[15px] leading-none font-bold tracking-[-0.01em]">
+            cuánto cuesta
+            <small className="mt-1 block text-[9px] font-medium tracking-[.06em] uppercase opacity-55">Cartagena</small>
+          </Link>
+        </div>
         <LangSwitch locale={locale} segments={[originId, destinationId]} />
       </header>
 
