@@ -44,6 +44,7 @@ type Dict = {
   licenseBody: string;
   missingTitle: string;
   missingBody: string;
+  contactLink: string;
   youPaid: string;
   mostPay: string;
   reportAnother: string;
@@ -111,7 +112,8 @@ export const COPY: Record<Locale, Dict> = {
     licenseBody:
       "Son de uso libre bajo licencia CC BY 4.0. Puedes citarlos, publicarlos o construir sobre ellos, siempre que menciones la fuente: Cuánto Cuesta Cartagena.",
     missingTitle: "¿Falta una ruta?",
-    missingBody: "Dinos cuál y la agregamos.",
+    missingBody: "Dinos cuál y la agregamos, o escríbenos por cualquier otra cosa:",
+    contactLink: "aquí",
     youPaid: "Pagaste",
     mostPay: "La mayoría paga",
     reportAnother: "Reportar otra carrera",
@@ -176,7 +178,8 @@ export const COPY: Record<Locale, Dict> = {
     licenseBody:
       "It's free to use under a CC BY 4.0 license. Cite it, publish it, or build on it, as long as you credit Cuánto Cuesta Cartagena.",
     missingTitle: "Missing a route?",
-    missingBody: "Tell us which one and we'll add it.",
+    missingBody: "Tell us which one and we'll add it, or reach out about anything else:",
+    contactLink: "here",
     youPaid: "You paid",
     mostPay: "Most people pay",
     reportAnother: "Report another ride",
@@ -241,7 +244,8 @@ export const COPY: Record<Locale, Dict> = {
     licenseBody:
       "Elles sont libres d'utilisation sous licence CC BY 4.0. Citez-les, publiez-les ou construisez dessus, à condition de créditer Cuánto Cuesta Cartagena.",
     missingTitle: "Un trajet manque ?",
-    missingBody: "Dites-nous lequel et on l'ajoute.",
+    missingBody: "Dites-nous lequel et on l'ajoute, ou écrivez-nous pour toute autre raison :",
+    contactLink: "ici",
     youPaid: "Vous avez payé",
     mostPay: "La majorité paie",
     reportAnother: "Signaler un autre trajet",

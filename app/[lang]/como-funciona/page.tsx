@@ -79,7 +79,9 @@ export default async function MethodologyPage({ params }: { params: Promise<{ la
 
         <div className="mt-auto border-t border-black/12 pt-[14px]">
           <div className="mb-[3px] text-[12.5px] font-bold">{t.missingTitle}</div>
-          <div className="leading-[1.55] opacity-65 break-words">{t.missingBody}</div>
+          <div className="leading-[1.55] opacity-65 break-words">
+            {t.missingBody} <a href="mailto:naffy.castaneda@gmail.com" className="underline">{t.contactLink}</a>
+          </div>
         </div>
       </div>
     </div>
