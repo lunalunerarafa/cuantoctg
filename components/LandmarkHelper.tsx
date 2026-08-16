@@ -13,7 +13,6 @@ const LANDMARKS: Partial<Record<PlaceId, string[]>> = {
   bocagrande: ["Hotel Caribe", "Nao Shopping Mall", "Playa de Bocagrande"],
   manga: ["Club de Pesca", "Cruise Terminal"],
   manzanillo: ["Manzanillo del Mar beach", "Grand Sirenis"],
-  castillogrande: ["Hotel Las Américas"],
   crespo: ["Crespo Beach"],
   "zona-norte": ["Universidad Tadeo Lozano", "Colegio George Washington", "Barceloneta"],
   "muelle-de-la-bodeguita": ["Boat dock for Islas del Rosario tours"],
