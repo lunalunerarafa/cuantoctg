@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import LandmarkHelper from "@/components/LandmarkHelper";
 import LangSwitch from "@/components/LangSwitch";
 import { COPY } from "@/lib/copy";
 import { isValidRoute, LOCALES, PLACE_IDS, placeLabel } from "@/lib/routes";
@@ -73,7 +74,10 @@ export default async function HomePage({
         </div>
 
         <div className="mx-[18px] mt-[14px] mb-[6px] md:mx-[28px]">
-          <div className="mb-2 text-[9px] font-bold tracking-[.08em] text-black/40 uppercase md:text-[10px]">{t.origin}</div>
+          <div className="mb-2 flex flex-wrap items-center gap-2">
+            <div className="text-[9px] font-bold tracking-[.08em] text-black/40 uppercase md:text-[10px]">{t.origin}</div>
+            <LandmarkHelper toggleLabel={t.notSureWhich} locale={locale} />
+          </div>
           <div className="flex flex-wrap gap-[6px] md:gap-[8px]">
             {PLACE_IDS.map((id) => (
               <Link

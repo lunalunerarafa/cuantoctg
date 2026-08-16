@@ -59,6 +59,7 @@ type Dict = {
   backHome: string;
   notEnoughDataYet: string;
   reportIncentive: string;
+  notSureWhich: string;
 };
 
 export const WORDMARK = "cuánto cuesta cartagena";
@@ -127,6 +128,7 @@ export const COPY: Record<Locale, Dict> = {
     backHome: "Inicio",
     notEnoughDataYet: "Aún no hay suficientes reportes para saber cuánto paga la mayoría.",
     reportIncentive: "Cada reporte hace el precio más confiable para el próximo viajero.",
+    notSureWhich: "¿No sabes cuál es?",
   },
   en: {
     intro: "What taxi rides actually cost in Cartagena, reported by the people who paid them.",
@@ -191,6 +193,7 @@ export const COPY: Record<Locale, Dict> = {
     backHome: "Home",
     notEnoughDataYet: "Not enough reports yet to know what most people pay.",
     reportIncentive: "Every report makes the fare more reliable for the next traveler.",
+    notSureWhich: "Not sure which one?",
   },
   fr: {
     intro: "Ce que coûtent vraiment les courses de taxi à Carthagène, rapporté par ceux qui les ont payées.",
@@ -255,6 +258,7 @@ export const COPY: Record<Locale, Dict> = {
     backHome: "Accueil",
     notEnoughDataYet: "Pas encore assez de signalements pour savoir ce que paie la majorité.",
     reportIncentive: "Chaque signalement rend le tarif plus fiable pour le prochain voyageur.",
+    notSureWhich: "Vous ne savez pas ?",
   },
 };
 
