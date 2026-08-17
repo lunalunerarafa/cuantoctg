@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import LangSwitch from "@/components/LangSwitch";
-import { COPY, methodologyDescription, methodologyTitle } from "@/lib/copy";
+import { COPY, methodologyDescription, methodologyFaqItems, methodologyTitle } from "@/lib/copy";
 import { LOCALES } from "@/lib/routes";
 import type { Locale } from "@/lib/routes";
 
@@ -48,20 +48,32 @@ export default async function MethodologyPage({ params }: { params: Promise<{ la
     [t.dataTitle, t.dataBody],
   ];
 
+  const faqEntities = methodologyFaqItems(locale).map(({ question, answer }) => ({
+    "@type": "Question",
+    name: question,
+    acceptedAnswer: { "@type": "Answer", text: answer },
+  }));
+
   return (
     <div className="flex min-h-dvh flex-col md:min-h-0">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqEntities }),
+        }}
+      />
       <header className="flex items-center gap-[10px] border-b border-ink px-[18px] py-[14px]">
         <Link href={`/${locale}`} className="flex items-center gap-[4px] text-[13px] font-semibold">
           <span style={{ fontSize: "16px" }}>←</span> {t.backHome}
         </Link>
-        <div className="flex-1 text-[12px] font-semibold">{t.methodTitle}</div>
+        <h1 className="flex-1 text-[12px] font-semibold">{t.methodTitle}</h1>
         <LangSwitch locale={locale} segments={["como-funciona"]} />
       </header>
 
       <div className="flex flex-1 flex-col gap-[14px] overflow-auto p-[18px] text-[11.5px]">
         {sections.map(([title, body]) => (
           <div key={title}>
-            <div className="mb-[3px] text-[12.5px] font-bold">{title}</div>
+            <h2 className="mb-[3px] text-[12.5px] font-bold">{title}</h2>
             <div className="leading-[1.55] opacity-65 break-words">{body}</div>
           </div>
         ))}

@@ -69,7 +69,7 @@ export default async function HomePage({
         </header>
 
         <div className="px-[18px] pt-4 pb-1">
-          <p className="text-[12px] leading-[1.4] font-semibold text-black/65 md:text-[16px]">{t.intro}</p>
+          <h1 className="text-[12px] leading-[1.4] font-semibold text-black/65 md:text-[16px]">{t.intro}</h1>
           <p className="mt-[3px] text-[10.5px] opacity-45 md:text-[12px]">{t.tagline}</p>
         </div>
 

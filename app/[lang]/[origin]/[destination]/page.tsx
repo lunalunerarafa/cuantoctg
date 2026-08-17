@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import LangSwitch from "@/components/LangSwitch";
 import ReportForm from "@/components/ReportForm";
-import { COPY, routeDescription, routeTitle } from "@/lib/copy";
+import { COPY, officialTariffFaq, routeDescription, routeQuestion, routeTitle } from "@/lib/copy";
 import { formatRange } from "@/lib/range";
-import { computeDisplayRange, getSeedStat, isValidRoute, LOCALES, placeLabel, VALID_ROUTES } from "@/lib/routes";
+import { computeDisplayRange, getOfficialTariff, getSeedStat, isValidRoute, LOCALES, placeLabel, VALID_ROUTES } from "@/lib/routes";
 import { getUserReports } from "@/lib/supabase";
 import type { Locale, PlaceId } from "@/lib/routes";
 
@@ -65,8 +65,32 @@ export default async function RoutePage({
   const destinationLabel = placeLabel(destinationId, locale);
   const rangeLabel = display.kind === "value" ? formatRange(display.min, display.max) : "—";
 
+  // Plainly-stated question + direct answer, rendered as real markup (not
+  // just meta tags) so AI answer engines and simple text extraction can
+  // quote it without running the client-side fare card.
+  const question = routeQuestion(originId, destinationId, locale);
+  const answer = routeDescription(originId, destinationId, display, locale);
+  const officialTariff = getOfficialTariff(originId, destinationId);
+  const faqEntities = [
+    { "@type": "Question", name: question, acceptedAnswer: { "@type": "Answer", text: answer } },
+    ...(officialTariff
+      ? [
+          (() => {
+            const { question: q, answer: a } = officialTariffFaq(originId, destinationId, locale, officialTariff);
+            return { "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } };
+          })(),
+        ]
+      : []),
+  ];
+
   return (
     <div className="flex min-h-dvh flex-col md:min-h-0">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faqEntities }),
+        }}
+      />
       <header className="flex items-center justify-between border-b border-ink px-[18px] py-[14px] md:px-[28px] md:py-[18px]">
         <div className="flex items-center gap-[10px]">
           <Link href={`/${locale}`} className="flex items-center gap-[4px] text-[13px] font-semibold">
@@ -82,6 +106,10 @@ export default async function RoutePage({
 
       <div className="flex-1 px-[18px] py-[18px] md:px-[28px]">
         <div className="flex flex-col items-center gap-2">
+          <div className="w-full">
+            <h1 className="text-[14px] leading-[1.3] font-bold md:text-[17px]">{question}</h1>
+            <p className="mt-[3px] text-[11px] leading-[1.4] opacity-60 md:text-[12.5px]">{answer}</p>
+          </div>
           <ReportForm
             locale={locale}
             originId={originId}

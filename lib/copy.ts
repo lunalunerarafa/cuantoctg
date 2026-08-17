@@ -1,6 +1,6 @@
 import { formatRange, relativeTime } from "./range";
-import { placeLabel } from "./routes";
-import type { DisplayRange, Locale, PlaceId } from "./routes";
+import { officialTariffAmountLabel, placeLabel } from "./routes";
+import type { DisplayRange, Locale, OfficialTariff, PlaceId } from "./routes";
 
 // Verbatim copy from the design handoff — do not paraphrase or shorten.
 type Dict = {
@@ -356,4 +356,97 @@ export function routeDescription(origin: PlaceId, destination: PlaceId, display:
   const word = reportWord(display.totalReportCount, locale);
   if (isCentroCentro) return CENTRO_CENTRO_DESCRIPTION_VALUE[locale](range, display.totalReportCount, word);
   return ROUTE_DESCRIPTION_VALUE[locale](placeLabel(origin, locale), placeLabel(destination, locale), range, display.totalReportCount, word);
+}
+
+// Plainly-phrased question for the on-page Q&A block and FAQPage schema —
+// what an AI answer engine or a rider skimming the page is actually asking.
+const ROUTE_QUESTION: Record<Locale, (o: string, d: string) => string> = {
+  es: (o, d) => `¿Cuánto cuesta un taxi de ${o} a ${d} en Cartagena?`,
+  en: (o, d) => `How much does a taxi from ${o} to ${d} in Cartagena cost?`,
+  fr: (o, d) => `Combien coûte un taxi de ${o} à ${d} à Carthagène ?`,
+};
+
+const CENTRO_CENTRO_QUESTION: Record<Locale, string> = {
+  es: "¿Cuánto cuesta un taxi para una carrera corta dentro de Centro, Cartagena?",
+  en: "How much does a taxi cost for a short ride within Downtown, Cartagena?",
+  fr: "Combien coûte un taxi pour un court trajet dans le Centre, Carthagène ?",
+};
+
+export function routeQuestion(origin: PlaceId, destination: PlaceId, locale: Locale): string {
+  if (origin === "centro" && destination === "centro") return CENTRO_CENTRO_QUESTION[locale];
+  return ROUTE_QUESTION[locale](placeLabel(origin, locale), placeLabel(destination, locale));
+}
+
+const OFFICIAL_TARIFF_QUESTION: Record<Locale, (o: string, d: string) => string> = {
+  es: (o, d) => `¿Cuál es la tarifa oficial de taxi de ${o} a ${d}?`,
+  en: (o, d) => `What is the official taxi tariff from ${o} to ${d}?`,
+  fr: (o, d) => `Quel est le tarif officiel du taxi de ${o} à ${d} ?`,
+};
+
+const OFFICIAL_TARIFF_ANSWER: Record<Locale, (o: string, d: string, amount: string, decree: string) => string> = {
+  es: (o, d, amount, decree) => `La tarifa oficial de taxi de ${o} a ${d} en Cartagena es ${amount} COP, fijada por ${decree}.`,
+  en: (o, d, amount, decree) => `The official taxi tariff from ${o} to ${d} in Cartagena is ${amount} COP, set by ${decree}.`,
+  fr: (o, d, amount, decree) => `Le tarif officiel du taxi de ${o} à ${d} à Carthagène est ${amount} COP, fixé par ${decree}.`,
+};
+
+// One extra FAQ entry for routes with a government-set fare — kept separate
+// from routeQuestion/routeDescription since it answers a different question
+// (the decree figure, not the crowd-sourced range).
+export function officialTariffFaq(
+  origin: PlaceId,
+  destination: PlaceId,
+  locale: Locale,
+  tariff: OfficialTariff,
+): { question: string; answer: string } {
+  const o = placeLabel(origin, locale);
+  const d = placeLabel(destination, locale);
+  return {
+    question: OFFICIAL_TARIFF_QUESTION[locale](o, d),
+    answer: OFFICIAL_TARIFF_ANSWER[locale](o, d, officialTariffAmountLabel(tariff), tariff.decree),
+  };
+}
+
+// Question phrasing for each How It Works section, in the same order as
+// the section list in app/[lang]/como-funciona/page.tsx. Answers reuse the
+// existing xxxBody copy verbatim — no duplicated prose.
+const METHODOLOGY_FAQ_QUESTIONS: Record<Locale, string[]> = {
+  es: [
+    "¿Por qué hacen esto?",
+    "¿De dónde vienen los reportes?",
+    "¿Qué pasa cuando hay pocos datos?",
+    "¿Qué pasa si no hay ningún reporte?",
+    "¿Cómo calculan el rango de precio?",
+    "¿Qué tan actualizados están los precios?",
+    "¿Tienen algún acuerdo con taxistas o empresas?",
+    "¿Qué es la tarifa oficial?",
+    "¿Qué datos piden al reportar un precio?",
+  ],
+  en: [
+    "Why are you doing this?",
+    "Where do the reports come from?",
+    "What happens when there's little data?",
+    "What happens if there are no reports at all?",
+    "How do you calculate the price range?",
+    "How up to date are the prices?",
+    "Are you partnered with any driver or company?",
+    "What is the official tariff?",
+    "What data do you ask for when reporting a price?",
+  ],
+  fr: [
+    "Pourquoi faites-vous cela ?",
+    "D'où viennent les signalements ?",
+    "Que se passe-t-il quand il y a peu de données ?",
+    "Que se passe-t-il s'il n'y a aucun signalement ?",
+    "Comment calculez-vous la fourchette de prix ?",
+    "Les prix sont-ils à jour ?",
+    "Avez-vous un accord avec des chauffeurs ou des entreprises ?",
+    "Qu'est-ce que le tarif officiel ?",
+    "Quelles données demandez-vous pour signaler un prix ?",
+  ],
+};
+
+export function methodologyFaqItems(locale: Locale): { question: string; answer: string }[] {
+  const t = COPY[locale];
+  const answers = [t.whyBody, t.reportsBody, t.thinBody, t.noneBody, t.calcBody, t.recencyBody, t.trustBody, t.officialBody, t.dataBody];
+  return METHODOLOGY_FAQ_QUESTIONS[locale].map((question, i) => ({ question, answer: answers[i] }));
 }
